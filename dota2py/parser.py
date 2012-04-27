@@ -19,6 +19,13 @@ KEY_DATA_TYPES = {
     7: "val_uint64"
 }
 
+class GameEvent(object):
+    def __init__(self, name):
+        self.name = name
+        self.keys = {}
+
+    def __str__(self):
+        return "%s: %s" % (self.name, self.keys)
 
 class Reader(object):
     """
@@ -198,18 +205,16 @@ class DemoParser(object):
         if event.eventid in self.event_lookup:
             #Bash this into a nicer data format to work with
             event_type = self.event_lookup[event.eventid]
-            event_dict = {
-                "name": event_type.name
-            }
+            ge = GameEvent(event_type.name)
 
             for i, key in enumerate(event.keys):
                 key_type = event_type.keys[i]
-                event_dict[key_type.name] = getattr(key,
+                ge.keys[key_type.name] = getattr(key,
                                                     KEY_DATA_TYPES[key.type])
 
-            self.debug("|==========> %s" % (event_dict, ))
+            self.debug("|==========> %s" % (ge, ))
 
-            #TODO provide a hook for this event dictionary
+            self.run_hooks(ge)
 
     def parse(self):
         """
