@@ -1,0 +1,3 @@
+#!/usr/bin/python
+from dota2py import parser
+parser.main()

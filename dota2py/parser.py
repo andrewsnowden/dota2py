@@ -186,7 +186,7 @@ class DemoParser(object):
         reader = Reader(StringIO(message.msg_data))
         message_type = messages.COMBINED_USER_MESSAGE_TYPES[cmd]
         user_message = reader.read_message(message_type, read_size=False)
-        
+
         self.run_hooks(user_message)
 
         self.info("|-----> %s" % (message_type, ))
@@ -265,7 +265,7 @@ class DemoParser(object):
                 if self.frames and frame > self.frames:
                     break
 
-if __name__ == "__main__":
+def main():
     import argparse
     parser = argparse.ArgumentParser(description="Dota 2 demo parser")
     parser.add_argument('demo', help="The .dem file to parse")
@@ -278,3 +278,6 @@ if __name__ == "__main__":
 
     r = DemoParser(args.demo, verbosity=args.verbosity, frames=args.frames)
     r.parse()
+
+if __name__ == "__main__":
+    main()
