@@ -186,6 +186,8 @@ class DemoParser(object):
         reader = Reader(StringIO(message.msg_data))
         message_type = messages.COMBINED_USER_MESSAGE_TYPES[cmd]
         user_message = reader.read_message(message_type, read_size=False)
+        
+        self.run_hooks(user_message)
 
         self.info("|-----> %s" % (message_type, ))
         self.debug(user_message)
