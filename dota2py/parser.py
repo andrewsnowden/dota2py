@@ -9,6 +9,8 @@ import functools
 from dota2py import messages
 from dota2py.proto import demo_pb2, netmessages_pb2
 
+import ctypes
+
 KEY_DATA_TYPES = {
     1: "val_string",
     2: "val_float",
@@ -26,6 +28,34 @@ class GameEvent(object):
 
     def __str__(self):
         return "%s: %s" % (self.name, self.keys)
+
+
+class PlayerInfo(ctypes.Structure):
+    """
+    The player_info_s struct that is used to store some player information.
+    Easier to use ctypes because of the byte alignment that structs do
+
+    For some reason the ctypes.sizeof() for this structure says 144, but the
+    binary data is 140. It doesn't seem to cause any problems but there may
+    be a mistake in here somewhere that I haven't been able to find
+    """
+    _fields_ = [
+        ("xuid", ctypes.c_ulonglong),
+        ("name", ctypes.c_char * 32),
+        ("userID", ctypes.c_int32),
+        ("guid", ctypes.c_char * 33),
+        ("friendsID", ctypes.c_uint32),
+        ("friendsName", ctypes.c_char * 32),
+        ("fakeplayer", ctypes.c_bool),
+        ("ishltv", ctypes.c_bool),
+        ("customFiles", ctypes.c_uint32 * 4),
+        ("filesDownloaded", ctypes.c_ubyte),
+    ]
+
+    def __str__(self):
+        return ", ".join("%s=%s" % (x[0], getattr(self, x[0])) for x in
+                        self._fields_)
+
 
 class Reader(object):
     """
@@ -60,11 +90,11 @@ class Reader(object):
 
     def read_int32(self):
         self.nibble(4)
-        return struct.unpack(">l", self.stream.read(4))[0]
+        return struct.unpack("i", self.stream.read(4))[0]
 
     def read_uint32(self):
         self.nibble(4)
-        return struct.unpack(">L", self.stream.read(4))[0]
+        return struct.unpack("I", self.stream.read(4))[0]
 
     def read_vint32(self):
         """
@@ -120,9 +150,12 @@ class DemoParser(object):
         self.internal_hooks = {
             demo_pb2.CDemoPacket: self.parse_demo_packet,
             demo_pb2.CDemoFullPacket: self.parse_demo_packet,
+            demo_pb2.CDemoStringTables: self.parse_string_table,
             netmessages_pb2.CSVCMsg_UserMessage: self.parse_user_message,
             netmessages_pb2.CSVCMsg_GameEvent: self.parse_game_event,
             netmessages_pb2.CSVCMsg_GameEventList: self.parse_game_event_list,
+            netmessages_pb2.CSVCMsg_CreateStringTable: self.create_string_table,
+            netmessages_pb2.CSVCMsg_UpdateStringTable: self.update_string_table,
         }
 
         self.hooks = hooks or {}
@@ -153,6 +186,28 @@ class DemoParser(object):
         if packet.__class__ in self.hooks:
             self.hooks[packet.__class__](packet)
 
+    def create_string_table(self, message):
+        pass
+
+    def update_string_table(self, message):
+        pass
+
+    def parse_string_table(self, tables):
+        """
+        Need to pull out player information from string table
+        """
+        self.info("String table: %s" % (packet.string_table, ))
+
+        for table in tables.tables:
+            if table.table_name == "userinfo":
+                for item in table.items:
+                    if len(item.data) > 0:
+                        if len(item.data) == 140: #PlayerInfo.struct_size:
+                            p = PlayerInfo()
+                            ctypes.memmove(ctypes.addressof(p), item.data, 140)
+                            p.str = item.str
+                            self.run_hooks(p)
+
     def parse_demo_packet(self, packet):
         if isinstance(packet, demo_pb2.CDemoFullPacket):
             data = packet.packet.data
@@ -160,7 +215,7 @@ class DemoParser(object):
             data = packet.data
 
         if isinstance(packet, demo_pb2.CDemoFullPacket):
-            self.debug("String table: %s" % (packet.string_table, ))
+            self.run_hooks(packet.string_table)
 
         reader = Reader(StringIO(data))
 
