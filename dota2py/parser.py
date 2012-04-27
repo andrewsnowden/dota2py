@@ -196,7 +196,7 @@ class DemoParser(object):
         """
         Need to pull out player information from string table
         """
-        self.info("String table: %s" % (packet.string_table, ))
+        self.info("String table: %s" % (tables.tables, ))
 
         for table in tables.tables:
             if table.table_name == "userinfo":
