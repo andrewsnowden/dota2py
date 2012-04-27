@@ -21,6 +21,7 @@ KEY_DATA_TYPES = {
     7: "val_uint64"
 }
 
+
 class GameEvent(object):
     def __init__(self, name):
         self.name = name
@@ -154,8 +155,10 @@ class DemoParser(object):
             netmessages_pb2.CSVCMsg_UserMessage: self.parse_user_message,
             netmessages_pb2.CSVCMsg_GameEvent: self.parse_game_event,
             netmessages_pb2.CSVCMsg_GameEventList: self.parse_game_event_list,
-            netmessages_pb2.CSVCMsg_CreateStringTable: self.create_string_table,
-            netmessages_pb2.CSVCMsg_UpdateStringTable: self.update_string_table,
+            netmessages_pb2.CSVCMsg_CreateStringTable:
+                self.create_string_table,
+            netmessages_pb2.CSVCMsg_UpdateStringTable:
+                self.update_string_table,
         }
 
         self.hooks = hooks or {}
@@ -202,7 +205,7 @@ class DemoParser(object):
             if table.table_name == "userinfo":
                 for item in table.items:
                     if len(item.data) > 0:
-                        if len(item.data) == 140: #PlayerInfo.struct_size:
+                        if len(item.data) == 140:
                             p = PlayerInfo()
                             ctypes.memmove(ctypes.addressof(p), item.data, 140)
                             p.str = item.str
@@ -319,6 +322,7 @@ class DemoParser(object):
 
                 if self.frames and frame > self.frames:
                     break
+
 
 def main():
     import argparse
