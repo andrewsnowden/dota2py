@@ -6,6 +6,7 @@ from dota2py import parser
 from dota2py.proto import demo_pb2, usermessages_pb2, netmessages_pb2
 from dota2py.proto import dota_usermessages_pb2
 from collections import defaultdict
+from functools import partial
 
 index = 0
 
@@ -24,6 +25,20 @@ def debug_dump(message, file_prefix="dump"):
         f.close()
 
 
+def get_side_attr(attr, invert, player):
+    """
+    Get a player attribute that depends on which side the player is on.
+    A creep kill for a radiant hero is a badguy_kill, while a creep kill
+    for a dire hero is a goodguy_kill.
+    """
+    t = player.team
+    if invert:
+        t = not player.team
+
+    return getattr(player, "%s_%s" % ("goodguy" if t else "badguy", attr))
+
+
+
 class Player(object):
     """
     All the information we collect about a player. The idea is that we collect
@@ -32,6 +47,7 @@ class Player(object):
     the basics
     """
 
+
     def __init__(self):
         self.hero = None
         self.name = None
@@ -39,10 +55,51 @@ class Player(object):
         self.index = None
         self.kills = []
         self.deaths = []
-        self.creep_kills = 0
-        self.creep_denies = 0
+
         self.creep_kill_types = defaultdict(int)
         self.creep_deny_types = defaultdict(int)
+
+        self.neutral_kills = 0
+        self.roshan_kills = 0
+
+        self.goodguy_kills = 0
+        self.badguy_kills = 0
+
+        self.goodguy_tower_kills = 0
+        self.badguy_tower_kills = 0
+
+        self.goodguy_rax_kills = 0
+        self.badguy_rax_kills = 0
+
+        self.goodguy_building_kills = 0
+        self.badguy_building_kills = 0
+
+        self.creep_types = {
+            "npc_dota_creep_goodguys" : "goodguy_kills",
+            "npc_dota_creep_badguys" : "badguy_kills",
+            "npc_dota_goodguys_siege" : "goodguy_kills",
+            "npc_dota_badguys_siege" : "badguy_kills",
+            "npc_dota_dark_troll_warlord_skeleton_warrior" : "neutral_kills",
+            "npc_dota_neutral" : "neutral_kills",
+            "npc_dota_roshan" : "roshan_kills",
+            "npc_dota_badguys_tower" : "badguy_tower_kills",
+            "npc_dota_goodguys_tower" : "goodguy_tower_kills",
+            "npc_dota_badguys_melee_rax" : "badguy_rax_kills",
+            "npc_dota_goodguys_melee_rax" : "goodguy_rax_kills",
+            "npc_dota_badguys_range_rax" : "badguy_rax_kills",
+            "npc_dota_goodguys_range_rax" : "goodguy_rax_kills",
+            "npc_dota_badguys_fillers" : "badguy_building_kills",
+            "npc_dota_goodguys_fillers" : "goodguy_building_kills",
+        }
+
+    creep_kills = property(partial(get_side_attr,"kills", False))
+    creep_denies = property(partial(get_side_attr, "kills", True))
+    tower_kills = property(partial(get_side_attr,"tower_kills", False))
+    tower_denies = property(partial(get_side_attr,"tower_kills", True))
+    rax_kills = property(partial(get_side_attr,"rax_kills", False))
+    rax_denies = property(partial(get_side_attr,"rax_kills", True))
+    building_kills = property(partial(get_side_attr,"building_kills", False))
+    building_denies = property(partial(get_side_attr,"building_kills", True))
 
     def add_kill(self, target, timestamp):
         self.kills.append((target, timestamp))
@@ -51,12 +108,20 @@ class Player(object):
         self.deaths.append((source, timestamp))
 
     def creep_kill(self, target, timestamp):
+        """
+        A creep was tragically killed. Need to split this into radiant/dire
+        and neutrals
+        """
         self.creep_kill_types[target] += 1
-        self.creep_kills += 1
 
-    def creep_deny(self, target, timestamp):
-        self.creep_deny_types[target] += 1
-        self.creep_denies += 1
+        matched = False
+        for k, v in self.creep_types.iteritems():
+            if target.startswith(k):
+                matched = True
+                setattr(self, v, getattr(self, v) + 1)
+
+        if not matched:
+            print '> unhandled creep type', self.hero, target
 
     def __str__(self):
         return str(self.get_dict())
@@ -69,15 +134,22 @@ class Player(object):
             "index": self.index,
             "kills": len(self.kills),
             "deaths": len(self.deaths),
-            "creep_kills": self.creep_kills,
+            "creep_kills": self.creep_kills + self.neutral_kills,
             "creep_denies": self.creep_denies,
+            "tower_kills" : self.tower_kills,
+            "tower_denies" : self.tower_denies,
+            "rax_kills" : self.rax_kills,
+            "rax_denies" : self.rax_denies,
+            "roshan_kills" : self.roshan_kills,
         }
 
         if verbosity > 3:
             d["creep_kill_types"] = self.creep_kill_types
             d["creep_deny_types"] = self.creep_deny_types
             d["kill_list"] = self.kills,
-            d["death_list"] = self.deaths
+            d["death_list"] = self.deaths,
+            d["building_kills"] = self.building_kills,
+            d["building_denis"] = self.building_denies,
 
         return d
 
@@ -188,7 +260,6 @@ class DemoSummary(object):
                         self.heroes[target].add_death(source, timestamp)
                         self.heroes[source].add_kill(target, timestamp)
                     elif source.startswith("npc_dota_hero"):
-                        #TODO seperate CS from denies
                         self.heroes[source].creep_kill(target, timestamp)
                 except KeyError, e:
                     """
