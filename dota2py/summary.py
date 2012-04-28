@@ -136,20 +136,20 @@ class Player(object):
             "deaths": len(self.deaths),
             "creep_kills": self.creep_kills + self.neutral_kills,
             "creep_denies": self.creep_denies,
-            "tower_kills" : self.tower_kills,
-            "tower_denies" : self.tower_denies,
-            "rax_kills" : self.rax_kills,
-            "rax_denies" : self.rax_denies,
-            "roshan_kills" : self.roshan_kills,
+            "tower_kills": self.tower_kills,
+            "rax_kills": self.rax_kills,
+            "roshan_kills": self.roshan_kills,
         }
 
-        if verbosity > 3:
+        if verbosity > 4:
+            d["tower_denies"] = self.tower_denies
+            d["rax_denies"] = self.rax_denies
             d["creep_kill_types"] = self.creep_kill_types
             d["creep_deny_types"] = self.creep_deny_types
             d["kill_list"] = self.kills,
             d["death_list"] = self.deaths,
             d["building_kills"] = self.building_kills,
-            d["building_denis"] = self.building_denies,
+            d["building_denies"] = self.building_denies,
 
         return d
 
@@ -165,6 +165,7 @@ class DemoSummary(object):
         self.verbosity = verbosity
 
         self.info = defaultdict(dict)
+        self.kills = []
 
         self.heroes = defaultdict(Player)
         self.player_info = {}
@@ -186,6 +187,9 @@ class DemoSummary(object):
 
         for hero, player in self.heroes.iteritems():
             player.hero = hero
+
+        if self.verbosity > 3:
+            self.info["kills"] = self.kills
 
         #self.info["heroes"] = self.heroes
 
@@ -257,6 +261,11 @@ class DemoSummary(object):
                     if (target.startswith("npc_dota_hero") and not
                         target_illusion):
 
+                        self.kills.append({
+                            "target": target,
+                            "source": source,
+                            "timestamp": timestamp,
+                            })
                         self.heroes[target].add_death(source, timestamp)
                         self.heroes[source].add_kill(target, timestamp)
                     elif source.startswith("npc_dota_hero"):
