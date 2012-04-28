@@ -146,7 +146,7 @@ class DemoParser(object):
         self.eventlist = None
         self.event_lookup = {}
 
-        self.messages = []
+        self.combat_log_names = []
 
         self.internal_hooks = {
             demo_pb2.CDemoPacket: self.parse_demo_packet,
@@ -210,6 +210,9 @@ class DemoParser(object):
                             ctypes.memmove(ctypes.addressof(p), item.data, 140)
                             p.str = item.str
                             self.run_hooks(p)
+            if table.table_name == "CombatLogNames":
+                self.combat_log_names = dict(enumerate(
+                    (item.str for item in table.items)))
 
     def parse_demo_packet(self, packet):
         if isinstance(packet, demo_pb2.CDemoFullPacket):
