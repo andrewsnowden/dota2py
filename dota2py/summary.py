@@ -167,6 +167,8 @@ class DemoSummary(object):
         self.info = defaultdict(dict)
         self.kills = []
 
+        self.chatlog = []
+
         self.heroes = defaultdict(Player)
         self.player_info = {}
 
@@ -179,6 +181,7 @@ class DemoSummary(object):
             parser.GameEvent: self.parse_game_event,
             parser.PlayerInfo: self.parse_player_info,
             usermessages_pb2.CUserMsg_TextMsg: self.parse_user_message,
+            usermessages_pb2.CUserMsg_SayText2: self.parse_say_text,
             dota_usermessages_pb2.CDOTAUserMsg_ChatEvent: self.parse_dota_um,
             dota_usermessages_pb2.CDOTAUserMsg_OverheadEvent:
                 self.parse_overhead_event,
@@ -188,10 +191,18 @@ class DemoSummary(object):
         for hero, player in self.heroes.iteritems():
             player.hero = hero
 
+        if self.verbosity > 2:
+            self.info["chatlog"] = self.chatlog
+
         if self.verbosity > 3:
             self.info["kills"] = self.kills
 
-        #self.info["heroes"] = self.heroes
+    def parse_say_text(self, event):
+        """
+        All chat
+        """
+        if event.chat and event.format == "DOTA_Chat_All":
+            self.chatlog.append((event.prefix, event.text))
 
     def parse_overhead_event(self, event):
         if event.message_type == dota_usermessages_pb2.OVERHEAD_ALERT_GOLD:
