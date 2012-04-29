@@ -5,7 +5,7 @@ Try and extract useful information from a Dota 2 replay
 from dota2py import parser
 from dota2py.proto import demo_pb2, usermessages_pb2, netmessages_pb2
 from dota2py.proto import dota_usermessages_pb2
-from collections import defaultdict
+from collections import defaultdict, deque
 from functools import partial
 
 index = 0
@@ -55,6 +55,9 @@ class Player(object):
         self.index = None
         self.kills = []
         self.deaths = []
+
+        self.aegises = 0
+        self.aegis_deaths = 0
 
         self.creep_kill_types = defaultdict(int)
         self.creep_deny_types = defaultdict(int)
@@ -119,9 +122,10 @@ class Player(object):
             if target.startswith(k):
                 matched = True
                 setattr(self, v, getattr(self, v) + 1)
+                break
 
         if not matched:
-            print '> unhandled creep type', self.hero, target
+            print '> unhandled creep type', target
 
     def __str__(self):
         return str(self.get_dict())
@@ -139,6 +143,7 @@ class Player(object):
             "tower_kills": self.tower_kills,
             "rax_kills": self.rax_kills,
             "roshan_kills": self.roshan_kills,
+            "aegises" : self.aegises,
         }
 
         if verbosity > 4:
@@ -150,6 +155,7 @@ class Player(object):
             d["death_list"] = self.deaths,
             d["building_kills"] = self.building_kills,
             d["building_denies"] = self.building_denies,
+            d["aegis_deaths"] = self.aegis_deaths,
 
         return d
 
@@ -170,7 +176,19 @@ class DemoSummary(object):
         self.chatlog = []
 
         self.heroes = defaultdict(Player)
+        self.indexed_players = {}
         self.player_info = {}
+
+        self.aegis = []
+
+        self.tick = 0
+
+
+    def add_trigger(self, tick, fn):
+        """
+        When our tick count gets to <tick> then run fn
+        """
+        self.triggers[tick].append(fn)
 
     def parse(self):
         print "Parsing demo '%s' for game information" % (self.filename, )
@@ -180,6 +198,7 @@ class DemoSummary(object):
             demo_pb2.CDemoFileInfo: self.parse_file_info,
             parser.GameEvent: self.parse_game_event,
             parser.PlayerInfo: self.parse_player_info,
+            netmessages_pb2.CNETMsg_Tick: self.handle_tick,
             usermessages_pb2.CUserMsg_TextMsg: self.parse_user_message,
             usermessages_pb2.CUserMsg_SayText2: self.parse_say_text,
             dota_usermessages_pb2.CDOTAUserMsg_ChatEvent: self.parse_dota_um,
@@ -194,8 +213,58 @@ class DemoSummary(object):
         if self.verbosity > 2:
             self.info["chatlog"] = self.chatlog
 
+        self.calculate_kills()
+
         if self.verbosity > 3:
             self.info["kills"] = self.kills
+
+    def calculate_kills(self):
+        """
+        At the end of the game calculate kills/deaths, taking aegis into account
+        This has to be done at the end when we have a playerid : hero map
+        """
+
+        aegises = deque(self.aegis)
+
+        next_aegis = aegises.popleft() if aegises else None
+        aegis_expires = None
+        active_aegis = None
+
+        real_kills = []
+
+        for kill in self.kills:
+            if next_aegis and next_aegis[0] < kill["tick"]:
+                active_aegis = next_aegis[1]
+                aegis_expires = next_aegis[0] + 1800 * 10  #10 minutes
+
+                self.indexed_players[active_aegis].aegises += 1
+
+                next_aegis = aegises.popleft() if aegises else None
+            elif aegis_expires and kill["tick"] > aegis_expires:
+                active_aegis = None
+                aegis_expires = None
+
+            source = kill["source"]
+            target = kill["target"]
+            timestamp = kill["timestamp"]
+
+            if active_aegis == self.heroes[target].index:
+                #This was an aegis kill
+                active_aegis = None
+                aegis_expires = None
+
+                self.heroes[target].aegis_deaths += 1
+            else:
+                real_kills.append(kill)
+                self.heroes[target].add_death(source, timestamp)
+                if target != source:
+                    #Don't count a deny as a kill
+                    self.heroes[source].add_kill(target, timestamp)
+
+        self.kills = real_kills
+
+    def handle_tick(self, event):
+        self.tick = event.tick
 
     def parse_say_text(self, event):
         """
@@ -208,14 +277,15 @@ class DemoSummary(object):
         if event.message_type == dota_usermessages_pb2.OVERHEAD_ALERT_GOLD:
             pass
 
-    def parse_dota_um(self, user_message):
+    def parse_dota_um(self, event):
         """
         The chat messages that arrive when certain events occur.
         The most useful ones are CHAT_MESSAGE_RUNE_PICKUP,
         CHAT_MESSAGE_RUNE_BOTTLE, CHAT_MESSAGE_GLYPH_USED,
         CHAT_MESSAGE_TOWER_KILL
         """
-        pass
+        if event.type == dota_usermessages_pb2.CHAT_MESSAGE_AEGIS:
+            self.aegis.append((self.tick, event.playerid_1))
 
     def parse_user_message(self, user_message):
         """
@@ -252,6 +322,7 @@ class DemoSummary(object):
             p.index = index
             p.team = 0 if index < 5 else 1
 
+            self.indexed_players[index] = p
             self.info["players"][player.player_name] = p
 
     def parse_game_event(self, ge):
@@ -264,8 +335,10 @@ class DemoSummary(object):
             if ge.keys["type"] == 4:
                 #Something died
                 try:
-                    source = self.dp.combat_log_names[ge.keys["sourcename"]]
-                    target = self.dp.combat_log_names[ge.keys["targetname"]]
+                    source = self.dp.combat_log_names.get(ge.keys["sourcename"],
+                                                          "unknown")
+                    target = self.dp.combat_log_names.get(ge.keys["targetname"],
+                                                          "unknown")
                     target_illusion = ge.keys["targetillusion"]
                     timestamp = ge.keys["timestamp"]
 
@@ -276,12 +349,9 @@ class DemoSummary(object):
                             "target": target,
                             "source": source,
                             "timestamp": timestamp,
+                            "tick" : self.tick,
                             })
 
-                        self.heroes[target].add_death(source, timestamp)
-                        if target != source:
-                            #Don't count a deny as a kill
-                            self.heroes[source].add_kill(target, timestamp)
                     elif source.startswith("npc_dota_hero"):
                         self.heroes[source].creep_kill(target, timestamp)
                 except KeyError, e:
