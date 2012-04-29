@@ -277,8 +277,11 @@ class DemoSummary(object):
                             "source": source,
                             "timestamp": timestamp,
                             })
+
                         self.heroes[target].add_death(source, timestamp)
-                        self.heroes[source].add_kill(target, timestamp)
+                        if target != source:
+                            #Don't count a deny as a kill
+                            self.heroes[source].add_kill(target, timestamp)
                     elif source.startswith("npc_dota_hero"):
                         self.heroes[source].creep_kill(target, timestamp)
                 except KeyError, e:
