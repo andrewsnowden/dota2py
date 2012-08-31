@@ -6,8 +6,8 @@ import requests
 import urllib
 
 API_KEY = None
-BASE_URL = "https://api.steampowered.com/IDOTA2Match_570/"
-
+BASE_URL_PRODUCTION = "https://api.steampowered.com/IDOTA2Match_570/"
+BASE_URL_TESTING = "https://api.steampowered.com/IDOTA2Match_205790/"
 
 def set_api_key(key):
     """
@@ -57,7 +57,7 @@ def get_page(url):
     return requests.get(url)
 
 
-def make_request(name, params=None, version="V001", key=None,
+def make_request(name, params=None, version="V001", production_servers=True, key=None,
                  fetcher=get_page):
     """
     Make an API request
@@ -69,7 +69,8 @@ def make_request(name, params=None, version="V001", key=None,
     if not params["key"]:
         raise ValueError("API key not set")
 
-    url = url_map("%s%s/%s/" % (BASE_URL, name, version), params)
+    base_url = BASE_URL_PRODUCTION if production_servers else BASE_URL_TESTING
+    url = url_map("%s%s/%s/" % (base_url, name, version), params)
     return fetcher(url)
 
 
