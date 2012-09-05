@@ -9,6 +9,24 @@ API_KEY = None
 BASE_URL_PRODUCTION = "https://api.steampowered.com/IDOTA2Match_570/"
 BASE_URL_TESTING = "https://api.steampowered.com/IDOTA2Match_205790/"
 
+
+class RequestFailure(Exception):
+    """
+    Thrown when a request to the Dota 2 servers failed. Probably they are down.
+    """
+    def __init__(self, status_code, url):
+        self.status_code = status_code
+        self.url = url
+
+    @classmethod
+    def from_response(self, resp):
+        self.status_code = resp.status_code
+        self.url = resp.url
+
+    def __str__(self):
+        return 'Error accessing {}: Code {}'.format(self.url, self.status_code)
+
+
 def set_api_key(key):
     """
     Set your API key for all further API queries
@@ -54,7 +72,10 @@ def get_page(url):
 
     import requests
     print 'GET %s' % (url, )
-    return requests.get(url)
+    resp = requests.get(url)
+    if resp.status_code != requests.codes.ok:
+        raise RequestFailure.from_response(resp)
+    return resp
 
 
 def make_request(name, params=None, version="V001", production_servers=True, key=None,
