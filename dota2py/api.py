@@ -123,3 +123,23 @@ def get_match_details(match_id, **kwargs):
     """
 
     return make_request("GetMatchDetails", {"match_id": match_id}, **kwargs)
+
+def get_prev_matches(n, start=None, date_max=None, **kwargs):
+    """
+    A generator yielding up to n matches one after another, starting with match
+    start_id if given or the most recent match before date_max or now.
+    """
+    while n:
+        resp = get_match_history(start_at_match_id=start, date_max=date_max, **kwargs)
+        matches = resp.json['result']['matches']
+
+        # We got the most (500) out of this query, move the date window to the past for the next query.
+        if resp.json['result']['results_remaining'] == 0:
+            date_max = matches[-1]['start_time']
+
+        for match, _ in zip(matches, range(n)):
+            yield match
+
+        n -= len(matches)
+        start = matches[-1]['match_id']-1
+
