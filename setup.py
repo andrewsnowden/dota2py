@@ -9,5 +9,5 @@ setup(name='Distutils',
       url='https://github.com/andrewsnowden/dota2py',
       packages=['dota2py', 'dota2py.proto'],
       package_data={"dota2py":["data/*.json"]},
-      scripts=["scripts/dota2py_parser"]
+      scripts=["scripts/dota2py_parser","scripts/dota2py_summary"]
       )
