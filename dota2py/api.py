@@ -45,25 +45,25 @@ def url_map(base, params):
 
     url = base
 
-    if '?' not in url and len(params):
+    if len(params) == 0:
+        #remove trailing ?&
+        return url.rstrip("?&")
+
+    if '?' not in url:
         url += "?"
     elif '?' in url:
         if not url.endswith("&") and not url.endswith("?"):
             url += "&"
 
+    entries = []
     for key, value in params.iteritems():
         if value is not None:
-            if not isinstance(value, basestring):
-                value = str(value)
+            value = str(value)
+            entries.append("%s=%s" % (urllib.quote_plus(key.encode("utf-8")),
+                                      urllib.quote_plus(value.encode("utf-8"))))
 
-            url += "%s=%s&" % (urllib.quote_plus(key.encode("utf-8")),
-                               urllib.quote_plus(value.encode("utf-8")))
-
-    if url.endswith("&") or url.endswith("?"):
-        url = url[:-1]
-
+    url += "&".join(entries)
     return str(url)
-
 
 def get_page(url):
     """

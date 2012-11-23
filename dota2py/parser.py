@@ -161,6 +161,7 @@ class DemoParser(object):
 
         self.hooks = hooks or {}
 
+        # logging functions
         self.important = functools.partial(self.log, 2)
         self.info = functools.partial(self.log, 3)
         self.debug = functools.partial(self.log, 4)
@@ -287,6 +288,8 @@ class DemoParser(object):
             self.debug("|==========> %s" % (ge, ))
 
             self.run_hooks(ge)
+        else:
+            pass  # TODO: log the unknown event for further investigation
 
     def parse(self):
         """

@@ -2,14 +2,16 @@
 Try and extract useful information from a Dota 2 replay
 """
 
+#TODO: identify players in chatLog by index instead of the name?
 from dota2py import parser
 from dota2py.proto import demo_pb2, usermessages_pb2, netmessages_pb2
 from dota2py.proto import dota_usermessages_pb2
 from collections import defaultdict, deque
 from functools import partial
 
-index = 0
+import json
 
+index = 0
 
 def debug_dump(message, file_prefix="dump"):
     """
@@ -125,7 +127,8 @@ class Player(object):
                 break
 
         if not matched:
-            print '> unhandled creep type', target
+            #TODO: this -might- will go under, how about using logging?
+            print '> unhandled creep type', target 
 
     def __str__(self):
         return str(self.get_dict())
@@ -175,7 +178,7 @@ class DemoSummary(object):
 
         self.chatlog = []
 
-        self.heroes = defaultdict(Player)
+        self.heroes = defaultdict(Player) #TODO: is it really good to get a default hero?
         self.indexed_players = {}
         self.player_info = {}
 
@@ -271,7 +274,9 @@ class DemoSummary(object):
         All chat
         """
         if event.chat and event.format == "DOTA_Chat_All":
-            self.chatlog.append((event.prefix, event.text))
+            #because moustache can not address lists properly
+            #TODO: player id somehow instead of the name (which can be duplicated)
+            self.chatlog.append({"playerName": event.prefix, "text":event.text})
 
     def parse_overhead_event(self, event):
         if event.message_type == dota_usermessages_pb2.OVERHEAD_ALERT_GOLD:
@@ -293,6 +298,7 @@ class DemoSummary(object):
         """
         #print user_message
         #debug_dump(user_message, 'user_message')
+        pass
 
     def parse_player_info(self, player):
         """
@@ -316,6 +322,8 @@ class DemoSummary(object):
         self.info["game_mode"] = file_info.game_info.dota.game_mode
         self.info["game_winner"] = file_info.game_info.dota.game_winner
 
+        # list of players instead of dict
+        self.info["players"] = []
         for index, player in enumerate(file_info.game_info.dota.player_info):
             p = self.heroes[player.hero_name]
             p.name = player.player_name
@@ -323,7 +331,7 @@ class DemoSummary(object):
             p.team = 0 if index < 5 else 1
 
             self.indexed_players[index] = p
-            self.info["players"][player.player_name] = p
+            self.info["players"].append(p) 
 
     def parse_game_event(self, ge):
         """
@@ -367,19 +375,23 @@ class DemoSummary(object):
                 #To get what spell/thing killed I think we probably look at the
                 #combatlog event right before this one
 
-    def print_info(self, d=None, indentation=0):
+    def get_print_string(self, s, d=None, indentation=0):
         for k, v in (d or self.info).items():
             if isinstance(v, dict):
-                print "%s%s:" % ('  ' * indentation, k)
-                self.print_info(v, indentation + 1)
+                s+="%s%s:" % ('  ' * indentation, k)
+                self.get_print_string(s, v, indentation + 1)
             else:
-                print "%s%s: %s" % ('  ' * indentation, k, v)
+                s+="%s%s: %s" % ('  ' * indentation, k, v)
 
+    def get_json_string(self):
+        return json.dumps(self.info, cls=SummaryEncoder)
 
 def main():
     import argparse
     p = argparse.ArgumentParser(description="Dota 2 demo parser")
     p.add_argument('demo', help="The .dem file to parse")
+    p.add_argument('--out', dest="outputFile", default=None, 
+                        help="where the summary is written (optional)")
     p.add_argument("--verbosity", dest="verbosity", default=3, type=int,
                         help="how verbose [1-5] (optional)")
     p.add_argument("--frames", dest="frames", default=None, type=int,
@@ -389,7 +401,19 @@ def main():
 
     d = DemoSummary(args.demo, verbosity=args.verbosity, frames=args.frames)
     d.parse()
-    d.print_info()
+    if args.outputFile == None:
+        print(d.get_print_string())
+    else:
+        f = open(args.outputFile,"w")
+        f.write(d.get_json_string())
+        f.close()
+        print "Output written to '%s'"%(args.outputFile,)
+
+class SummaryEncoder(json.JSONEncoder):
+    def default(self, obj):
+       if isinstance(obj, Player):
+          return obj.get_dict()
+       return json.JSONEncoder.default(self, obj)
 
 if __name__ == "__main__":
     main()
