@@ -10,6 +10,7 @@ from dota2py import messages
 from dota2py.proto import demo_pb2, netmessages_pb2
 
 import ctypes
+import sys
 
 KEY_DATA_TYPES = {
     1: "val_string",
@@ -54,8 +55,7 @@ class PlayerInfo(ctypes.Structure):
     ]
 
     def __str__(self):
-        return ", ".join("%s=%s" % (x[0], getattr(self, x[0])) for x in
-                        self._fields_)
+        return ", ".join("%s=%s" % (x[0], getattr(self, x[0])) for x in self._fields_)
 
 
 class Reader(object):
@@ -155,15 +155,12 @@ class DemoParser(object):
             netmessages_pb2.CSVCMsg_UserMessage: self.parse_user_message,
             netmessages_pb2.CSVCMsg_GameEvent: self.parse_game_event,
             netmessages_pb2.CSVCMsg_GameEventList: self.parse_game_event_list,
-            netmessages_pb2.CSVCMsg_CreateStringTable:
-                self.create_string_table,
-            netmessages_pb2.CSVCMsg_UpdateStringTable:
-                self.update_string_table,
+            netmessages_pb2.CSVCMsg_CreateStringTable: self.create_string_table,
+            netmessages_pb2.CSVCMsg_UpdateStringTable: self.update_string_table,
         }
 
         self.hooks = hooks or {}
 
-        self.error = functools.partial(self.log, 1)
         self.important = functools.partial(self.log, 2)
         self.info = functools.partial(self.log, 3)
         self.debug = functools.partial(self.log, 4)
@@ -176,6 +173,12 @@ class DemoParser(object):
         if level <= self.verbosity:
             print message
 
+    def error(self, message):
+        """
+        Errors should always be printed (to stderr) regardless of verbosity.
+        """
+        print >> sys.stderr, message
+
     def run_hooks(self, packet):
         """
         Run any additional functions that want to process this type of packet.
@@ -184,7 +187,14 @@ class DemoParser(object):
         """
 
         if packet.__class__ in self.internal_hooks:
-            self.internal_hooks[packet.__class__](packet)
+            try:
+                self.internal_hooks[packet.__class__](packet)
+            except KeyError as ex:
+                # I had a replay (38219692) where I encounter a CDOTAUserMsg_UnitEvent where
+                # msg_type has value 7, which does not exist in EDotaEntityMessages.
+                # Note that the exception is raised from within the generated
+                # protobuf code - I think this is the best place to catch it.
+                self.error('Exception in a internal hook of a packet: ', ex)
 
         if packet.__class__ in self.hooks:
             self.hooks[packet.__class__](packet)
@@ -272,8 +282,7 @@ class DemoParser(object):
 
             for i, key in enumerate(event.keys):
                 key_type = event_type.keys[i]
-                ge.keys[key_type.name] = getattr(key,
-                                                    KEY_DATA_TYPES[key.type])
+                ge.keys[key_type.name] = getattr(key, KEY_DATA_TYPES[key.type])
 
             self.debug("|==========> %s" % (ge, ))
 
