@@ -88,6 +88,7 @@ def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
         "skill": skill,
         "date_min": date_min,
         "date_max": date_max,
+        "account_id": account_id,
         "league_id": league_id,
         "matches_requested": matches_requested,
     }
