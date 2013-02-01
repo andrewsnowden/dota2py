@@ -85,14 +85,14 @@ def get_item_name(id):
     return ITEMS_CACHE.get(id)
 
 
-def get_steamid_32(steamid_64):
+def get_steam_id_32(steamid_64):
     """
     Get the 32 bit steam id from the 64 bit version
     """
     return steamid_64 - 76561197960265728
 
 
-def get_steamid_64(steamid_32):
+def get_steam_id_64(steamid_32):
     """
     Get the 64 bit steam id from the 32 bit version
     """

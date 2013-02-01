@@ -3,8 +3,7 @@ from twisted.web import client
 from twisted.python import util
 from functools import partial
 import json
-
-set_api_key = api.set_api_key
+import sys
 
 
 def json_twisted_response(f):
@@ -22,15 +21,11 @@ def json_twisted_response(f):
     wrapper = util.mergeFunctionMetadata(f.func, wrapper)
     return wrapper
 
+set_api_key = api.set_api_key
 
-get_steam_id = json_twisted_response(partial(api.get_steam_id.func,
-    fetcher=client.getPage))
-
-get_match_history = json_twisted_response(partial(api.get_match_history.func,
-                                      fetcher=client.getPage))
-
-get_match_details = json_twisted_response(partial(api.get_match_details.func,
-                                      fetcher=client.getPage))
-
-get_heroes = json_twisted_response(partial(api.get_heroes.func,
-                                           fetcher=client.getPage))
+# Set up copies of all of the API functions that use client.getPage
+module = sys.modules.get(__name__)
+if module:
+    for name, func in api.API_FUNCTIONS.items():
+        setattr(module, name, json_twisted_response(partial(func,
+            fetcher=client.getPage)))

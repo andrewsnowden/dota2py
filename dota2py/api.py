@@ -9,6 +9,7 @@ from functools import wraps
 
 API_KEY = None
 BASE_URL = "http://api.steampowered.com/IDOTA2Match_570/"
+API_FUNCTIONS = {}
 
 logger = logging.getLogger("dota2py")
 
@@ -89,7 +90,7 @@ def json_request_response(f):
         response.raise_for_status()
         return json.loads(response.content)
 
-    wrapper.func = f
+    API_FUNCTIONS[f.__name__] = f
     return wrapper
 
 
