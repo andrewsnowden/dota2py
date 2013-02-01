@@ -6,8 +6,9 @@ import urllib
 import logging
 import json
 from functools import wraps
+import os
 
-API_KEY = None
+API_KEY = os.environ.get("DOTA2_API_KEY")
 BASE_URL = "http://api.steampowered.com/IDOTA2Match_570/"
 API_FUNCTIONS = {}
 
