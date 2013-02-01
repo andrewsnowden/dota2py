@@ -83,3 +83,19 @@ class ApiTest(unittest.TestCase):
         j = api.get_heroes()
         self.assertIn("result", j)
         self.assertIn("heroes", j["result"])
+
+    def test_get_live_league_games(self):
+        """
+        Get list of currently live league games
+        """
+        j = api.get_live_league_games()
+        self.assertIn("result", j)
+        self.assertIn("games", j["result"])
+
+    def test_get_league_listing(self):
+        """
+        Get list of leagues
+        """
+        j = api.get_league_listing()
+        self.assertIn("result", j)
+        self.assertIn("leagues", j["result"])

@@ -158,3 +158,20 @@ def get_heroes(**kwargs):
     """
     return make_request("GetHeroes",
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
+
+
+@json_request_response
+def get_live_league_games(**kwargs):
+    """
+    Get a list of currently live league games
+    """
+    return make_request("GetLiveLeagueGames", **kwargs)
+
+
+@json_request_response
+def get_league_listing(**kwargs):
+    """
+    Get a list of leagues
+    """
+    return make_request("GetLeaguelisting", **kwargs)
+
