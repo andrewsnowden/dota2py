@@ -20,3 +20,31 @@ You will need [snappy](http://code.google.com/p/snappy/) and [Google Protocol Bu
 To run the parser either run parser.py or in Linux use the dota2py_parser script
 
 To show a summary of useful information from a replay, run summary.py or dota2py_summary (this functionality is a work in progress)
+
+Running the tests
+-----------------
+
+There are a number of functional tests for the Web API. These require a valid Dota 2 API key, you can get one at:
+[http://steamcommunity.com/dev/apikey](http://steamcommunity.com/dev/apikey)
+
+To run the tests you must set the environment variable DOTA2_API_KEY to your key. In windows:
+
+    set DOTA2_API_KEY=YOUR_KEY_HERE
+
+and in linux:
+
+    export DOTA2_API_KEY=YOUR_KEY_HERE
+
+Once you have set your API key, the easiest way to run the tests is using nosetests (pip install nose).
+
+To run all the tests:
+
+    nosetests dota2py
+
+To run a specific test:
+
+    nosetests dota2py.funtests.test_api:ApiTest.test_get_steamid
+
+To print out debug information you can add the following flags:
+
+    -v -s --logging-config=debug_logging.cfg
