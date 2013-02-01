@@ -1,5 +1,9 @@
 *.py[co]
 
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
 # Packages
 *.egg
 *.egg-info
