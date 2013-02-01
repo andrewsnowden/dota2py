@@ -100,6 +100,20 @@ def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
     return make_request("GetMatchHistory", params, **kwargs)
 
 
+def get_match_history_by_sequence_num(start_at_match_seq_num,
+                                      matches_requested=None, **kwargs):
+    """
+    Most recent matches ordered by sequence number
+    """
+    params = {
+        "start_at_match_seq_num": start_at_match_seq_num,
+        "matches_requested": matches_requested
+    }
+
+    return make_request("GetMatchHistoryBySequenceNum", params,
+        **kwargs)
+
+
 def get_match_details(match_id, **kwargs):
     """
     Detailed information about a match

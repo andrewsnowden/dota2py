@@ -10,6 +10,8 @@ from dota2py import api, data
 
 STEAM_NAME = "acidfoo"
 STEAM_ID = 76561198042433230
+MATCH_ID = 113514700
+MATCH_SEQ_NUM = 104373116
 
 
 class ApiTest(unittest.TestCase):
@@ -73,11 +75,22 @@ class ApiTest(unittest.TestCase):
         """
         Get the full details from a match
         """
-        match_id = 113514700
-        response = api.get_match_details(match_id)
+        response = api.get_match_details(MATCH_ID)
         self.assertEquals(response.status_code, 200)
 
         j = json.loads(response.content)
         self.assertIn("result", j)
-        self.assertEquals(j["result"]["match_id"], match_id)
+        self.assertEquals(j["result"]["match_id"], MATCH_ID)
         self.assertIn("players", j["result"])
+
+    def test_get_match_history_by_sequence_num(self):
+        """
+        Get matches after a specific sequence number
+        """
+        response = api.get_match_history_by_sequence_num(MATCH_SEQ_NUM, 10)
+        self.assertEquals(response.status_code, 200)
+
+        j = json.loads(response.content)
+
+        self.assertEquals(j["result"]["status"], 1)
+        self.assertIn("matches", j["result"])
