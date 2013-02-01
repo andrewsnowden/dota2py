@@ -41,16 +41,27 @@ To run the parser either run parser.py or in Linux use the dota2py_parser script
 
 To show a summary of useful information from a replay, run summary.py or dota2py_summary (this functionality is a work in progress)
 
+Installation
+------------
+
+Install via pip:
+
+    $ pip install dota2py
+
+or, install via easy_install:
+
+    $ easy_install dota2py
+
 Running the tests
 -----------------
 
 There are a number of functional tests for the Web API. To run the tests you must set the environment variable DOTA2_API_KEY to your key. In windows:
 
-    set DOTA2_API_KEY=YOUR_KEY_HERE
+    > set DOTA2_API_KEY=YOUR_KEY_HERE
 
 and in linux:
 
-    export DOTA2_API_KEY=YOUR_KEY_HERE
+    $ export DOTA2_API_KEY=YOUR_KEY_HERE
 
 Once you have set your API key, the easiest way to run the tests is using nosetests (pip install nose).
 

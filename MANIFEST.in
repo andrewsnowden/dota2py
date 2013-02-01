@@ -1,0 +1,2 @@
+include LICENSE MANIFEST README.md
+recursive-include examples *

@@ -3,7 +3,7 @@ from os.path import abspath, join, dirname
 import os
 
 # Some path fiddling to make sure we can access the module
-sys.path.append(abspath(join(abspath(dirname(__file__)), "../..")))
+sys.path.append(abspath(join(abspath(dirname(__file__)), "..")))
 
 from dota2py.twisted import api
 from twisted.internet import reactor, defer
