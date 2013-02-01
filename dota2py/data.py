@@ -11,6 +11,31 @@ import json
 HEROES_CACHE = {}
 ITEMS_CACHE = {}
 
+GAME_MODES = {
+    "dota_game_mode_0": "All Pick",
+    "dota_game_mode_1": "Single Draft",
+    "dota_game_mode_2": "All Random",
+    "dota_game_mode_3": "Random Draft",
+    "dota_game_mode_4": "Captains Draft",
+    "dota_game_mode_5": "Captains Mode",
+    "dota_game_mode_6": "Death Mode",
+    "dota_game_mode_7": "Diretide",
+    "dota_game_mode_8": "Reverse Captains Mode",
+    "dota_game_mode_9": "The Greeviling",
+    "dota_game_mode_10": "Tutorial",
+    "dota_game_mode_11": "Mid Only",
+    "dota_game_mode_12": "Least Played",
+    "dota_game_mode_13": "New Player Pool",
+}
+
+LEAVER_STATUS = {
+    None: "Bot",
+    "NULL": "Bot",
+    0: "Stayed entire match",
+    1: "Left after game was safe to leave",
+    2: "Abandoned the game"
+}
+
 
 def load_heroes():
     """
