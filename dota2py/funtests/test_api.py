@@ -82,7 +82,11 @@ class ApiTest(unittest.TestCase):
         """
         j = api.get_heroes()
         self.assertIn("result", j)
-        self.assertIn("heroes", j["result"])
+        heroes = j["result"]["heroes"]
+        hero = heroes[0]
+        self.assertIn("localized_name", hero)
+        self.assertIn("name", hero)
+        self.assertIn("id", hero)
 
     def test_get_live_league_games(self):
         """

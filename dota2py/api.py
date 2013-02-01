@@ -65,12 +65,13 @@ def get_page(url):
 
 
 def make_request(name, params=None, version="V001", key=None,
-                 fetcher=get_page, base=None):
+                 fetcher=get_page, base=None, language="en_us"):
     """
     Make an API request
     """
     params = params or {}
     params["key"] = key or API_KEY
+    params["language"] = language
 
     if not params["key"]:
         raise ValueError("API key not set")
