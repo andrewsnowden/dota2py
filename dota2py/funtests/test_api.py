@@ -68,3 +68,16 @@ class ApiTest(unittest.TestCase):
                     break
 
             self.assertTrue(contained_player)
+
+    def test_get_match_details(self):
+        """
+        Get the full details from a match
+        """
+        match_id = 113514700
+        response = api.get_match_details(match_id)
+        self.assertEquals(response.status_code, 200)
+
+        j = json.loads(response.content)
+        self.assertIn("result", j)
+        self.assertEquals(j["result"]["match_id"], match_id)
+        self.assertIn("players", j["result"])
