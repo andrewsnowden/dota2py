@@ -31,3 +31,6 @@ get_match_history = json_twisted_response(partial(api.get_match_history.func,
 
 get_match_details = json_twisted_response(partial(api.get_match_details.func,
                                       fetcher=client.getPage))
+
+get_heroes = json_twisted_response(partial(api.get_heroes.func,
+                                           fetcher=client.getPage))

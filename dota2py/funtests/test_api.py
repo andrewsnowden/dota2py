@@ -75,3 +75,11 @@ class ApiTest(unittest.TestCase):
 
         self.assertEquals(j["result"]["status"], 1)
         self.assertIn("matches", j["result"])
+
+    def test_get_heroes(self):
+        """
+        Get list of hero identifiers
+        """
+        j = api.get_heroes()
+        self.assertIn("result", j)
+        self.assertIn("heroes", j["result"])

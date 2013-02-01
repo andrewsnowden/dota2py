@@ -148,3 +148,12 @@ def get_steam_id(vanityurl, **kwargs):
     params = {"vanityurl": vanityurl}
     return make_request("ResolveVanityURL", params, version="v0001",
         base="http://api.steampowered.com/ISteamUser/", **kwargs)
+
+
+@json_request_response
+def get_heroes(**kwargs):
+    """
+    Get a list of hero identifiers
+    """
+    return make_request("GetHeroes",
+        base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
