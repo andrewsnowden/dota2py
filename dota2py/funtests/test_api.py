@@ -4,7 +4,6 @@ Functional tests for the web API
 
 import unittest
 import os
-import json
 
 from dota2py import api, data
 
@@ -21,51 +20,39 @@ class ApiTest(unittest.TestCase):
             raise NameError("Please set the DOTA2_API_KEY environment variable")
         api.set_api_key(key)
 
-    def test_get_steamid(self):
+    def test_get_steam_id(self):
         """
-        Test fetching a steam ID from a steam account name
+        Get a steam ID from a steam account name
         """
-        response = api.get_steamid("acidfoo")
-        self.assertEquals(response.status_code, 200)
-
-        j = json.loads(response.content)
-
+        j = api.get_steam_id("acidfoo")
         self.assertEquals(j["response"]["success"], 1)
-        self.assertEquals(j["response"]["steamid"], STEAM_ID)
+        self.assertEquals(j["response"]["steamid"], unicode(STEAM_ID))
 
     def test_match_history(self):
         """
-        Test fetching the latest matches
+        Get a list of the latest matches
         """
-
-        response = api.get_match_history()
-        self.assertEquals(response.status_code, 200)
-
-        j = json.loads(response.content)
-
+        j = api.get_match_history()
         self.assertEquals(j["result"]["status"], 1)
         self.assertIn("matches", j["result"])
 
     def test_player_match_history(self):
         """
-        Test fetching a players match history
+        Get the latest matches for a particular player
         """
-        response = api.get_match_history(account_id=STEAM_ID)
-        self.assertEquals(response.status_code, 200)
-
-        j = json.loads(response.content)
+        j = api.get_match_history(account_id=STEAM_ID)
         self.assertEquals(j["result"]["status"], 1)
         self.assertTrue("matches" in j["result"])
 
         matches = j["result"]["matches"]
 
         # Check that this player is in each of the games
-        steamid_32 = data.get_steamid_32(STEAM_ID)
+        steam_id_32 = data.get_steam_id_32(STEAM_ID)
 
         for match in matches:
             contained_player = False
             for player in match["players"]:
-                if player["account_id"] == steamid_32:
+                if player["account_id"] == steam_id_32:
                     contained_player = True
                     break
 
@@ -75,10 +62,7 @@ class ApiTest(unittest.TestCase):
         """
         Get the full details from a match
         """
-        response = api.get_match_details(MATCH_ID)
-        self.assertEquals(response.status_code, 200)
-
-        j = json.loads(response.content)
+        j = api.get_match_details(MATCH_ID)
         self.assertIn("result", j)
         self.assertEquals(j["result"]["match_id"], MATCH_ID)
         self.assertIn("players", j["result"])
@@ -87,10 +71,7 @@ class ApiTest(unittest.TestCase):
         """
         Get matches after a specific sequence number
         """
-        response = api.get_match_history_by_sequence_num(MATCH_SEQ_NUM, 10)
-        self.assertEquals(response.status_code, 200)
-
-        j = json.loads(response.content)
+        j = api.get_match_history_by_sequence_num(MATCH_SEQ_NUM, 10)
 
         self.assertEquals(j["result"]["status"], 1)
         self.assertIn("matches", j["result"])

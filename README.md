@@ -6,10 +6,30 @@ Python tools for Dota 2
 Web API client
 --------------
 
-A thin wrapper around the Dota 2 web API described at:
-[http://dev.dota2.com/showthread.php?t=47115](http://dev.dota2.com/showthread.php?t=47115)
+A thin wrapper around the Dota 2 WebAPI described ([http://dev.dota2.com/showthread.php?t=47115](http://dev.dota2.com/showthread.php?t=47115))
 
-This uses either the [requests](http://docs.python-requests.org/en/latest/index.html) library (dota2py/api.py), or [Twisted](http://www.twistedmatrix.com) (dota2py/twisted/api.py)
+This uses either the [requests](http://docs.python-requests.org/en/latest/index.html) library ([dota2py/api.py](dota2py/api.py)), or [Twisted](http://www.twistedmatrix.com) ([dota2py/twisted/api.py](dota2py/twisted/api.py))
+
+To use the Web API you must have a valid steam API key. You can get one at [http://steamcommunity.com/dev/apikey](http://steamcommunity.com/dev/apikey)
+
+More information about the API can be found in [this thread](http://dev.dota2.com/showthread.php?t=58317) and in [the WebAPI dev forums](http://dev.dota2.com/forumdisplay.php?f=411)
+
+### WebAPI examples:
+
+Examples code for both the standard and Twisted APIs can be found in the [examples folder](dota2py/examples).
+
+#### Find the latest match for a player
+
+```python
+# Get all the most recent match played by the player 'acidfoo'
+account_id = int(api.get_steam_id("acidfoo")["response"]["steamid"])
+
+# Get a list of recent matches for the player
+matches = api.get_match_history(account_id=account_id)["result"]["matches"]
+
+# Get the full details for a match
+match = api.get_match_details(matches[0]["match_id"])
+```
 
 Replay Parser
 -------------
@@ -24,10 +44,7 @@ To show a summary of useful information from a replay, run summary.py or dota2py
 Running the tests
 -----------------
 
-There are a number of functional tests for the Web API. These require a valid Dota 2 API key, you can get one at:
-[http://steamcommunity.com/dev/apikey](http://steamcommunity.com/dev/apikey)
-
-To run the tests you must set the environment variable DOTA2_API_KEY to your key. In windows:
+There are a number of functional tests for the Web API. To run the tests you must set the environment variable DOTA2_API_KEY to your key. In windows:
 
     set DOTA2_API_KEY=YOUR_KEY_HERE
 
@@ -43,7 +60,7 @@ To run all the tests:
 
 To run a specific test:
 
-    nosetests dota2py.funtests.test_api:ApiTest.test_get_steamid
+    nosetests dota2py.funtests.test_api:ApiTest.test_get_steam_id
 
 To print out debug information you can add the following flags:
 

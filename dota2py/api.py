@@ -4,9 +4,11 @@ Tools for accessing the Dota 2 match history web API
 
 import urllib
 import logging
+import json
+from functools import wraps
 
 API_KEY = None
-BASE_URL = "https://api.steampowered.com/IDOTA2Match_570/"
+BASE_URL = "http://api.steampowered.com/IDOTA2Match_570/"
 
 logger = logging.getLogger("dota2py")
 
@@ -66,7 +68,6 @@ def make_request(name, params=None, version="V001", key=None,
     """
     Make an API request
     """
-
     params = params or {}
     params["key"] = key or API_KEY
 
@@ -77,6 +78,22 @@ def make_request(name, params=None, version="V001", key=None,
     return fetcher(url)
 
 
+def json_request_response(f):
+    """
+    Parse the JSON from an API response. We do this in a decorator so that our
+    Twisted library can reuse the underlying functions
+    """
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        response = f(*args, **kwargs)
+        response.raise_for_status()
+        return json.loads(response.content)
+
+    wrapper.func = f
+    return wrapper
+
+
+@json_request_response
 def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
                       skill=0, date_min=None, date_max=None, account_id=None,
                       league_id=None, matches_requested=None,
@@ -100,6 +117,7 @@ def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
     return make_request("GetMatchHistory", params, **kwargs)
 
 
+@json_request_response
 def get_match_history_by_sequence_num(start_at_match_seq_num,
                                       matches_requested=None, **kwargs):
     """
@@ -114,19 +132,19 @@ def get_match_history_by_sequence_num(start_at_match_seq_num,
         **kwargs)
 
 
+@json_request_response
 def get_match_details(match_id, **kwargs):
     """
     Detailed information about a match
     """
-
     return make_request("GetMatchDetails", {"match_id": match_id}, **kwargs)
 
 
-def get_steamid(vanityurl, **kwargs):
+@json_request_response
+def get_steam_id(vanityurl, **kwargs):
     """
-    Get a players steamid from their steam name/vanity url
+    Get a players steam id from their steam name/vanity url
     """
-
     params = {"vanityurl": vanityurl}
     return make_request("ResolveVanityURL", params, version="v0001",
-        base="http://api.steampowered.com/ISteamUser/")
+        base="http://api.steampowered.com/ISteamUser/", **kwargs)
