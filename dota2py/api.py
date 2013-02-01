@@ -2,7 +2,6 @@
 Tools for accessing the Dota 2 match history web API
 """
 
-import requests
 import urllib
 
 API_KEY = None
@@ -21,6 +20,8 @@ def set_api_key(key):
 def url_map(base, params):
     """
     Return a URL with get parameters based on the params passed in
+    This is more forgiving than urllib.urlencode and will attempt to coerce
+    non-string objects into strings and automatically UTF-8 encode strings.
 
     @param params: HTTP GET parameters
     """
