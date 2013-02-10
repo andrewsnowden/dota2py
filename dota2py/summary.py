@@ -370,10 +370,14 @@ class DemoSummary(object):
     def print_info(self, d=None, indentation=0):
         for k, v in (d or self.info).items():
             if isinstance(v, dict):
-                print "%s%s:" % ('  ' * indentation, k)
+                print "%s%s:" % ('  ' * indentation,
+                    unicode(k).encode("ascii", errors="ignore"))
+
                 self.print_info(v, indentation + 1)
             else:
-                print "%s%s: %s" % ('  ' * indentation, k, v)
+                print "%s%s: %s" % ('  ' * indentation,
+                    unicode(k).encode("ascii", errors="ignore"),
+                    unicode(v).encode("ascii", errors="ignore"))
 
 
 def main():
