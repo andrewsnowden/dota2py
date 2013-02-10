@@ -38,7 +38,6 @@ def get_side_attr(attr, invert, player):
     return getattr(player, "%s_%s" % ("goodguy" if t else "badguy", attr))
 
 
-
 class Player(object):
     """
     All the information we collect about a player. The idea is that we collect
@@ -46,7 +45,6 @@ class Player(object):
     detailed the information you get out is. For the moment we just start with
     the basics
     """
-
 
     def __init__(self):
         self.hero = None
@@ -78,31 +76,31 @@ class Player(object):
         self.badguy_building_kills = 0
 
         self.creep_types = {
-            "npc_dota_creep_goodguys" : "goodguy_kills",
-            "npc_dota_creep_badguys" : "badguy_kills",
-            "npc_dota_goodguys_siege" : "goodguy_kills",
-            "npc_dota_badguys_siege" : "badguy_kills",
-            "npc_dota_dark_troll_warlord_skeleton_warrior" : "neutral_kills",
-            "npc_dota_neutral" : "neutral_kills",
-            "npc_dota_roshan" : "roshan_kills",
-            "npc_dota_badguys_tower" : "badguy_tower_kills",
-            "npc_dota_goodguys_tower" : "goodguy_tower_kills",
-            "npc_dota_badguys_melee_rax" : "badguy_rax_kills",
-            "npc_dota_goodguys_melee_rax" : "goodguy_rax_kills",
-            "npc_dota_badguys_range_rax" : "badguy_rax_kills",
-            "npc_dota_goodguys_range_rax" : "goodguy_rax_kills",
-            "npc_dota_badguys_fillers" : "badguy_building_kills",
-            "npc_dota_goodguys_fillers" : "goodguy_building_kills",
+            "npc_dota_creep_goodguys": "goodguy_kills",
+            "npc_dota_creep_badguys": "badguy_kills",
+            "npc_dota_goodguys_siege": "goodguy_kills",
+            "npc_dota_badguys_siege": "badguy_kills",
+            "npc_dota_dark_troll_warlord_skeleton_warrior": "neutral_kills",
+            "npc_dota_neutral": "neutral_kills",
+            "npc_dota_roshan": "roshan_kills",
+            "npc_dota_badguys_tower": "badguy_tower_kills",
+            "npc_dota_goodguys_tower": "goodguy_tower_kills",
+            "npc_dota_badguys_melee_rax": "badguy_rax_kills",
+            "npc_dota_goodguys_melee_rax": "goodguy_rax_kills",
+            "npc_dota_badguys_range_rax": "badguy_rax_kills",
+            "npc_dota_goodguys_range_rax": "goodguy_rax_kills",
+            "npc_dota_badguys_fillers": "badguy_building_kills",
+            "npc_dota_goodguys_fillers": "goodguy_building_kills",
         }
 
-    creep_kills = property(partial(get_side_attr,"kills", False))
+    creep_kills = property(partial(get_side_attr, "kills", False))
     creep_denies = property(partial(get_side_attr, "kills", True))
-    tower_kills = property(partial(get_side_attr,"tower_kills", False))
-    tower_denies = property(partial(get_side_attr,"tower_kills", True))
-    rax_kills = property(partial(get_side_attr,"rax_kills", False))
-    rax_denies = property(partial(get_side_attr,"rax_kills", True))
-    building_kills = property(partial(get_side_attr,"building_kills", False))
-    building_denies = property(partial(get_side_attr,"building_kills", True))
+    tower_kills = property(partial(get_side_attr, "tower_kills", False))
+    tower_denies = property(partial(get_side_attr, "tower_kills", True))
+    rax_kills = property(partial(get_side_attr, "rax_kills", False))
+    rax_denies = property(partial(get_side_attr, "rax_kills", True))
+    building_kills = property(partial(get_side_attr, "building_kills", False))
+    building_denies = property(partial(get_side_attr, "building_kills", True))
 
     def add_kill(self, target, timestamp):
         self.kills.append((target, timestamp))
@@ -143,7 +141,7 @@ class Player(object):
             "tower_kills": self.tower_kills,
             "rax_kills": self.rax_kills,
             "roshan_kills": self.roshan_kills,
-            "aegises" : self.aegises,
+            "aegises": self.aegises,
         }
 
         if verbosity > 4:
@@ -182,7 +180,6 @@ class DemoSummary(object):
         self.aegis = []
 
         self.tick = 0
-
 
     def add_trigger(self, tick, fn):
         """
@@ -235,7 +232,7 @@ class DemoSummary(object):
         for kill in self.kills:
             if next_aegis and next_aegis[0] < kill["tick"]:
                 active_aegis = next_aegis[1]
-                aegis_expires = next_aegis[0] + 1800 * 10  #10 minutes
+                aegis_expires = next_aegis[0] + 1800 * 10  # 10 minutes
 
                 self.indexed_players[active_aegis].aegises += 1
 
@@ -349,12 +346,12 @@ class DemoSummary(object):
                             "target": target,
                             "source": source,
                             "timestamp": timestamp,
-                            "tick" : self.tick,
+                            "tick": self.tick,
                             })
 
                     elif source.startswith("npc_dota_hero"):
                         self.heroes[source].creep_kill(target, timestamp)
-                except KeyError, e:
+                except KeyError:
                     """
                     Sometimes we get combat logs for things we dont have in
                     combat_log_names. My theory is that the server sends
