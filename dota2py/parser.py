@@ -286,7 +286,7 @@ class DemoParser(object):
 
         self.important("Parsing demo file '%s'" % (self.filename, ))
 
-        with open(self.filename) as f:
+        with open(self.filename, 'rb') as f:
             reader = Reader(StringIO(f.read()))
 
             filestamp = reader.read(8)
