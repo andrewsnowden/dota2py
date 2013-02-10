@@ -13,8 +13,82 @@ import netmessages_pb2
 DESCRIPTOR = descriptor.FileDescriptor(
   name='dota_commonmessages.proto',
   package='',
-  serialized_pb='\n\x19\x64ota_commonmessages.proto\x1a google/protobuf/descriptor.proto\x1a\x11netmessages.proto\"R\n\x15\x43\x44OTAMsg_LocationPing\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\x0e\n\x06target\x18\x03 \x01(\x05\x12\x13\n\x0b\x64irect_ping\x18\x04 \x01(\x08\"9\n\x10\x43\x44OTAMsg_MapLine\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\x0f\n\x07initial\x18\x03 \x01(\x08\x42\x05H\x01\x80\x01\x00')
+  serialized_pb='\n\x19\x64ota_commonmessages.proto\x1a google/protobuf/descriptor.proto\x1a\x11netmessages.proto\"R\n\x15\x43\x44OTAMsg_LocationPing\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\x0e\n\x06target\x18\x03 \x01(\x05\x12\x13\n\x0b\x64irect_ping\x18\x04 \x01(\x08\":\n\x12\x43\x44OTAMsg_ItemAlert\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\x0e\n\x06itemid\x18\x03 \x01(\x05\"9\n\x10\x43\x44OTAMsg_MapLine\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\x0f\n\x07initial\x18\x03 \x01(\x08\"S\n\x12\x43\x44OTAMsg_WorldLine\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\t\n\x01z\x18\x03 \x01(\x05\x12\x0f\n\x07initial\x18\x04 \x01(\x08\x12\x0b\n\x03\x65nd\x18\x05 \x01(\x08*\xb7\x02\n\x15\x45\x44OTAChatWheelMessage\x12\x11\n\rk_EDOTA_CW_Ok\x10\x00\x12\x13\n\x0fk_EDOTA_CW_Care\x10\x01\x12\x16\n\x12k_EDOTA_CW_GetBack\x10\x02\x12\x18\n\x14k_EDOTA_CW_NeedWards\x10\x03\x12\x13\n\x0fk_EDOTA_CW_Stun\x10\x04\x12\x13\n\x0fk_EDOTA_CW_Help\x10\x05\x12\x13\n\x0fk_EDOTA_CW_Push\x10\x06\x12\x16\n\x12k_EDOTA_CW_GoodJob\x10\x07\x12\x16\n\x12k_EDOTA_CW_Missing\x10\x08\x12\x1a\n\x16k_EDOTA_CW_Missing_Top\x10\t\x12\x1a\n\x16k_EDOTA_CW_Missing_Mid\x10\n\x12\x1d\n\x19k_EDOTA_CW_Missing_Bottom\x10\x0b')
 
+_EDOTACHATWHEELMESSAGE = descriptor.EnumDescriptor(
+  name='EDOTAChatWheelMessage',
+  full_name='EDOTAChatWheelMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Ok', index=0, number=0,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Care', index=1, number=1,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_GetBack', index=2, number=2,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_NeedWards', index=3, number=3,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Stun', index=4, number=4,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Help', index=5, number=5,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Push', index=6, number=6,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_GoodJob', index=7, number=7,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Missing', index=8, number=8,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Missing_Top', index=9, number=9,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Missing_Mid', index=10, number=10,
+      options=None,
+      type=None),
+    descriptor.EnumValueDescriptor(
+      name='k_EDOTA_CW_Missing_Bottom', index=11, number=11,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=371,
+  serialized_end=682,
+)
+
+
+k_EDOTA_CW_Ok = 0
+k_EDOTA_CW_Care = 1
+k_EDOTA_CW_GetBack = 2
+k_EDOTA_CW_NeedWards = 3
+k_EDOTA_CW_Stun = 4
+k_EDOTA_CW_Help = 5
+k_EDOTA_CW_Push = 6
+k_EDOTA_CW_GoodJob = 7
+k_EDOTA_CW_Missing = 8
+k_EDOTA_CW_Missing_Top = 9
+k_EDOTA_CW_Missing_Mid = 10
+k_EDOTA_CW_Missing_Bottom = 11
 
 
 
@@ -67,6 +141,48 @@ _CDOTAMSG_LOCATIONPING = descriptor.Descriptor(
 )
 
 
+_CDOTAMSG_ITEMALERT = descriptor.Descriptor(
+  name='CDOTAMsg_ItemAlert',
+  full_name='CDOTAMsg_ItemAlert',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    descriptor.FieldDescriptor(
+      name='x', full_name='CDOTAMsg_ItemAlert.x', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='y', full_name='CDOTAMsg_ItemAlert.y', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='itemid', full_name='CDOTAMsg_ItemAlert.itemid', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=166,
+  serialized_end=224,
+)
+
+
 _CDOTAMSG_MAPLINE = descriptor.Descriptor(
   name='CDOTAMsg_MapLine',
   full_name='CDOTAMsg_MapLine',
@@ -104,12 +220,70 @@ _CDOTAMSG_MAPLINE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=166,
-  serialized_end=223,
+  serialized_start=226,
+  serialized_end=283,
+)
+
+
+_CDOTAMSG_WORLDLINE = descriptor.Descriptor(
+  name='CDOTAMsg_WorldLine',
+  full_name='CDOTAMsg_WorldLine',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    descriptor.FieldDescriptor(
+      name='x', full_name='CDOTAMsg_WorldLine.x', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='y', full_name='CDOTAMsg_WorldLine.y', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='z', full_name='CDOTAMsg_WorldLine.z', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='initial', full_name='CDOTAMsg_WorldLine.initial', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='end', full_name='CDOTAMsg_WorldLine.end', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=285,
+  serialized_end=368,
 )
 
 DESCRIPTOR.message_types_by_name['CDOTAMsg_LocationPing'] = _CDOTAMSG_LOCATIONPING
+DESCRIPTOR.message_types_by_name['CDOTAMsg_ItemAlert'] = _CDOTAMSG_ITEMALERT
 DESCRIPTOR.message_types_by_name['CDOTAMsg_MapLine'] = _CDOTAMSG_MAPLINE
+DESCRIPTOR.message_types_by_name['CDOTAMsg_WorldLine'] = _CDOTAMSG_WORLDLINE
 
 class CDOTAMsg_LocationPing(message.Message):
   __metaclass__ = reflection.GeneratedProtocolMessageType
@@ -117,10 +291,22 @@ class CDOTAMsg_LocationPing(message.Message):
   
   # @@protoc_insertion_point(class_scope:CDOTAMsg_LocationPing)
 
+class CDOTAMsg_ItemAlert(message.Message):
+  __metaclass__ = reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _CDOTAMSG_ITEMALERT
+  
+  # @@protoc_insertion_point(class_scope:CDOTAMsg_ItemAlert)
+
 class CDOTAMsg_MapLine(message.Message):
   __metaclass__ = reflection.GeneratedProtocolMessageType
   DESCRIPTOR = _CDOTAMSG_MAPLINE
   
   # @@protoc_insertion_point(class_scope:CDOTAMsg_MapLine)
+
+class CDOTAMsg_WorldLine(message.Message):
+  __metaclass__ = reflection.GeneratedProtocolMessageType
+  DESCRIPTOR = _CDOTAMSG_WORLDLINE
+  
+  # @@protoc_insertion_point(class_scope:CDOTAMsg_WorldLine)
 
 # @@protoc_insertion_point(module_scope)

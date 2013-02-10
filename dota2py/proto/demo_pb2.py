@@ -12,7 +12,7 @@ import google.protobuf.descriptor_pb2
 DESCRIPTOR = descriptor.FileDescriptor(
   name='demo.proto',
   package='',
-  serialized_pb='\n\ndemo.proto\x1a google/protobuf/descriptor.proto\"\xd8\x01\n\x0f\x43\x44\x65moFileHeader\x12\x17\n\x0f\x64\x65mo_file_stamp\x18\x01 \x02(\t\x12\x18\n\x10network_protocol\x18\x02 \x01(\x05\x12\x13\n\x0bserver_name\x18\x03 \x01(\t\x12\x13\n\x0b\x63lient_name\x18\x04 \x01(\t\x12\x10\n\x08map_name\x18\x05 \x01(\t\x12\x16\n\x0egame_directory\x18\x06 \x01(\t\x12\x1b\n\x13\x66ullpackets_version\x18\x07 \x01(\x05\x12!\n\x19\x61llow_clientside_entities\x18\x08 \x01(\x08\"\x89\x02\n\tCGameInfo\x12&\n\x04\x64ota\x18\x04 \x01(\x0b\x32\x18.CGameInfo.CDotaGameInfo\x1a\xd3\x01\n\rCDotaGameInfo\x12\x10\n\x08match_id\x18\x01 \x01(\r\x12\x11\n\tgame_mode\x18\x02 \x01(\x05\x12\x13\n\x0bgame_winner\x18\x03 \x01(\x05\x12\x39\n\x0bplayer_info\x18\x04 \x03(\x0b\x32$.CGameInfo.CDotaGameInfo.CPlayerInfo\x1aM\n\x0b\x43PlayerInfo\x12\x11\n\thero_name\x18\x01 \x01(\t\x12\x13\n\x0bplayer_name\x18\x02 \x01(\t\x12\x16\n\x0eis_fake_client\x18\x03 \x01(\x08\"v\n\rCDemoFileInfo\x12\x15\n\rplayback_time\x18\x01 \x01(\x02\x12\x16\n\x0eplayback_ticks\x18\x02 \x01(\x05\x12\x17\n\x0fplayback_frames\x18\x03 \x01(\x05\x12\x1d\n\tgame_info\x18\x04 \x01(\x0b\x32\n.CGameInfo\"J\n\x0b\x43\x44\x65moPacket\x12\x13\n\x0bsequence_in\x18\x01 \x01(\x05\x12\x18\n\x10sequence_out_ack\x18\x02 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"Y\n\x0f\x43\x44\x65moFullPacket\x12(\n\x0cstring_table\x18\x01 \x01(\x0b\x32\x12.CDemoStringTables\x12\x1c\n\x06packet\x18\x02 \x01(\x0b\x32\x0c.CDemoPacket\"\x0f\n\rCDemoSyncTick\"$\n\x0f\x43\x44\x65moConsoleCmd\x12\x11\n\tcmdstring\x18\x01 \x01(\t\"\x1f\n\x0f\x43\x44\x65moSendTables\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"\x81\x01\n\x0e\x43\x44\x65moClassInfo\x12(\n\x07\x63lasses\x18\x01 \x03(\x0b\x32\x17.CDemoClassInfo.class_t\x1a\x45\n\x07\x63lass_t\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x14\n\x0cnetwork_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\"7\n\x0f\x43\x44\x65moCustomData\x12\x16\n\x0e\x63\x61llback_index\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"+\n\x18\x43\x44\x65moCustomDataCallbacks\x12\x0f\n\x07save_id\x18\x01 \x03(\t\"\xfb\x01\n\x11\x43\x44\x65moStringTables\x12*\n\x06tables\x18\x01 \x03(\x0b\x32\x1a.CDemoStringTables.table_t\x1a$\n\x07items_t\x12\x0b\n\x03str\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x1a\x93\x01\n\x07table_t\x12\x12\n\ntable_name\x18\x01 \x01(\t\x12)\n\x05items\x18\x02 \x03(\x0b\x32\x1a.CDemoStringTables.items_t\x12\x34\n\x10items_clientside\x18\x03 \x03(\x0b\x32\x1a.CDemoStringTables.items_t\x12\x13\n\x0btable_flags\x18\x04 \x01(\x05\"\x0b\n\tCDemoStop\"0\n\x0c\x43\x44\x65moUserCmd\x12\x12\n\ncmd_number\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c*\xdd\x02\n\rEDemoCommands\x12\x16\n\tDEM_Error\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x0c\n\x08\x44\x45M_Stop\x10\x00\x12\x12\n\x0e\x44\x45M_FileHeader\x10\x01\x12\x10\n\x0c\x44\x45M_FileInfo\x10\x02\x12\x10\n\x0c\x44\x45M_SyncTick\x10\x03\x12\x12\n\x0e\x44\x45M_SendTables\x10\x04\x12\x11\n\rDEM_ClassInfo\x10\x05\x12\x14\n\x10\x44\x45M_StringTables\x10\x06\x12\x0e\n\nDEM_Packet\x10\x07\x12\x14\n\x10\x44\x45M_SignonPacket\x10\x08\x12\x12\n\x0e\x44\x45M_ConsoleCmd\x10\t\x12\x12\n\x0e\x44\x45M_CustomData\x10\n\x12\x1b\n\x17\x44\x45M_CustomDataCallbacks\x10\x0b\x12\x0f\n\x0b\x44\x45M_UserCmd\x10\x0c\x12\x12\n\x0e\x44\x45M_FullPacket\x10\r\x12\x0b\n\x07\x44\x45M_Max\x10\x0e\x12\x14\n\x10\x44\x45M_IsCompressed\x10pB\x03\x80\x01\x00')
+  serialized_pb='\n\ndemo.proto\x1a google/protobuf/descriptor.proto\"\xfc\x01\n\x0f\x43\x44\x65moFileHeader\x12\x17\n\x0f\x64\x65mo_file_stamp\x18\x01 \x02(\t\x12\x18\n\x10network_protocol\x18\x02 \x01(\x05\x12\x13\n\x0bserver_name\x18\x03 \x01(\t\x12\x13\n\x0b\x63lient_name\x18\x04 \x01(\t\x12\x10\n\x08map_name\x18\x05 \x01(\t\x12\x16\n\x0egame_directory\x18\x06 \x01(\t\x12\x1b\n\x13\x66ullpackets_version\x18\x07 \x01(\x05\x12!\n\x19\x61llow_clientside_entities\x18\x08 \x01(\x08\x12\"\n\x1a\x61llow_clientside_particles\x18\t \x01(\x08\"\xde\x03\n\tCGameInfo\x12&\n\x04\x64ota\x18\x04 \x01(\x0b\x32\x18.CGameInfo.CDotaGameInfo\x1a\xa8\x03\n\rCDotaGameInfo\x12\x10\n\x08match_id\x18\x01 \x01(\r\x12\x11\n\tgame_mode\x18\x02 \x01(\x05\x12\x13\n\x0bgame_winner\x18\x03 \x01(\x05\x12\x39\n\x0bplayer_info\x18\x04 \x03(\x0b\x32$.CGameInfo.CDotaGameInfo.CPlayerInfo\x12\x10\n\x08leagueid\x18\x05 \x01(\r\x12=\n\npicks_bans\x18\x06 \x03(\x0b\x32).CGameInfo.CDotaGameInfo.CHeroSelectEvent\x12\x17\n\x0fradiant_team_id\x18\x07 \x01(\r\x12\x14\n\x0c\x64ire_team_id\x18\x08 \x01(\r\x1a^\n\x0b\x43PlayerInfo\x12\x11\n\thero_name\x18\x01 \x01(\t\x12\x13\n\x0bplayer_name\x18\x02 \x01(\t\x12\x16\n\x0eis_fake_client\x18\x03 \x01(\x08\x12\x0f\n\x07steamid\x18\x04 \x01(\x04\x1a\x42\n\x10\x43HeroSelectEvent\x12\x0f\n\x07is_pick\x18\x01 \x01(\x08\x12\x0c\n\x04team\x18\x02 \x01(\r\x12\x0f\n\x07hero_id\x18\x03 \x01(\r\"v\n\rCDemoFileInfo\x12\x15\n\rplayback_time\x18\x01 \x01(\x02\x12\x16\n\x0eplayback_ticks\x18\x02 \x01(\x05\x12\x17\n\x0fplayback_frames\x18\x03 \x01(\x05\x12\x1d\n\tgame_info\x18\x04 \x01(\x0b\x32\n.CGameInfo\"J\n\x0b\x43\x44\x65moPacket\x12\x13\n\x0bsequence_in\x18\x01 \x01(\x05\x12\x18\n\x10sequence_out_ack\x18\x02 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"Y\n\x0f\x43\x44\x65moFullPacket\x12(\n\x0cstring_table\x18\x01 \x01(\x0b\x32\x12.CDemoStringTables\x12\x1c\n\x06packet\x18\x02 \x01(\x0b\x32\x0c.CDemoPacket\"\x0f\n\rCDemoSyncTick\"$\n\x0f\x43\x44\x65moConsoleCmd\x12\x11\n\tcmdstring\x18\x01 \x01(\t\"\x1f\n\x0f\x43\x44\x65moSendTables\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"\x81\x01\n\x0e\x43\x44\x65moClassInfo\x12(\n\x07\x63lasses\x18\x01 \x03(\x0b\x32\x17.CDemoClassInfo.class_t\x1a\x45\n\x07\x63lass_t\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x14\n\x0cnetwork_name\x18\x02 \x01(\t\x12\x12\n\ntable_name\x18\x03 \x01(\t\"7\n\x0f\x43\x44\x65moCustomData\x12\x16\n\x0e\x63\x61llback_index\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\"+\n\x18\x43\x44\x65moCustomDataCallbacks\x12\x0f\n\x07save_id\x18\x01 \x03(\t\"\xfb\x01\n\x11\x43\x44\x65moStringTables\x12*\n\x06tables\x18\x01 \x03(\x0b\x32\x1a.CDemoStringTables.table_t\x1a$\n\x07items_t\x12\x0b\n\x03str\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x1a\x93\x01\n\x07table_t\x12\x12\n\ntable_name\x18\x01 \x01(\t\x12)\n\x05items\x18\x02 \x03(\x0b\x32\x1a.CDemoStringTables.items_t\x12\x34\n\x10items_clientside\x18\x03 \x03(\x0b\x32\x1a.CDemoStringTables.items_t\x12\x13\n\x0btable_flags\x18\x04 \x01(\x05\"\x0b\n\tCDemoStop\"0\n\x0c\x43\x44\x65moUserCmd\x12\x12\n\ncmd_number\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c*\xdd\x02\n\rEDemoCommands\x12\x16\n\tDEM_Error\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x0c\n\x08\x44\x45M_Stop\x10\x00\x12\x12\n\x0e\x44\x45M_FileHeader\x10\x01\x12\x10\n\x0c\x44\x45M_FileInfo\x10\x02\x12\x10\n\x0c\x44\x45M_SyncTick\x10\x03\x12\x12\n\x0e\x44\x45M_SendTables\x10\x04\x12\x11\n\rDEM_ClassInfo\x10\x05\x12\x14\n\x10\x44\x45M_StringTables\x10\x06\x12\x0e\n\nDEM_Packet\x10\x07\x12\x14\n\x10\x44\x45M_SignonPacket\x10\x08\x12\x12\n\x0e\x44\x45M_ConsoleCmd\x10\t\x12\x12\n\x0e\x44\x45M_CustomData\x10\n\x12\x1b\n\x17\x44\x45M_CustomDataCallbacks\x10\x0b\x12\x0f\n\x0b\x44\x45M_UserCmd\x10\x0c\x12\x12\n\x0e\x44\x45M_FullPacket\x10\r\x12\x0b\n\x07\x44\x45M_Max\x10\x0e\x12\x14\n\x10\x44\x45M_IsCompressed\x10p')
 
 _EDEMOCOMMANDS = descriptor.EnumDescriptor(
   name='EDemoCommands',
@@ -91,8 +91,8 @@ _EDEMOCOMMANDS = descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1462,
-  serialized_end=1811,
+  serialized_start=1711,
+  serialized_end=2060,
 )
 
 
@@ -179,6 +179,13 @@ _CDEMOFILEHEADER = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    descriptor.FieldDescriptor(
+      name='allow_clientside_particles', full_name='CDemoFileHeader.allow_clientside_particles', index=8,
+      number=9, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -189,7 +196,7 @@ _CDEMOFILEHEADER = descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=49,
-  serialized_end=265,
+  serialized_end=301,
 )
 
 
@@ -221,6 +228,13 @@ _CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    descriptor.FieldDescriptor(
+      name='steamid', full_name='CGameInfo.CDotaGameInfo.CPlayerInfo.steamid', index=3,
+      number=4, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -230,8 +244,49 @@ _CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=456,
-  serialized_end=533,
+  serialized_start=620,
+  serialized_end=714,
+)
+
+_CGAMEINFO_CDOTAGAMEINFO_CHEROSELECTEVENT = descriptor.Descriptor(
+  name='CHeroSelectEvent',
+  full_name='CGameInfo.CDotaGameInfo.CHeroSelectEvent',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    descriptor.FieldDescriptor(
+      name='is_pick', full_name='CGameInfo.CDotaGameInfo.CHeroSelectEvent.is_pick', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='team', full_name='CGameInfo.CDotaGameInfo.CHeroSelectEvent.team', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='hero_id', full_name='CGameInfo.CDotaGameInfo.CHeroSelectEvent.hero_id', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  extension_ranges=[],
+  serialized_start=716,
+  serialized_end=782,
 )
 
 _CGAMEINFO_CDOTAGAMEINFO = descriptor.Descriptor(
@@ -269,17 +324,45 @@ _CGAMEINFO_CDOTAGAMEINFO = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    descriptor.FieldDescriptor(
+      name='leagueid', full_name='CGameInfo.CDotaGameInfo.leagueid', index=4,
+      number=5, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='picks_bans', full_name='CGameInfo.CDotaGameInfo.picks_bans', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='radiant_team_id', full_name='CGameInfo.CDotaGameInfo.radiant_team_id', index=6,
+      number=7, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='dire_team_id', full_name='CGameInfo.CDotaGameInfo.dire_team_id', index=7,
+      number=8, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
-  nested_types=[_CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO, ],
+  nested_types=[_CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO, _CGAMEINFO_CDOTAGAMEINFO_CHEROSELECTEVENT, ],
   enum_types=[
   ],
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=322,
-  serialized_end=533,
+  serialized_start=358,
+  serialized_end=782,
 )
 
 _CGAMEINFO = descriptor.Descriptor(
@@ -305,8 +388,8 @@ _CGAMEINFO = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=268,
-  serialized_end=533,
+  serialized_start=304,
+  serialized_end=782,
 )
 
 
@@ -354,8 +437,8 @@ _CDEMOFILEINFO = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=535,
-  serialized_end=653,
+  serialized_start=784,
+  serialized_end=902,
 )
 
 
@@ -396,8 +479,8 @@ _CDEMOPACKET = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=655,
-  serialized_end=729,
+  serialized_start=904,
+  serialized_end=978,
 )
 
 
@@ -431,8 +514,8 @@ _CDEMOFULLPACKET = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=731,
-  serialized_end=820,
+  serialized_start=980,
+  serialized_end=1069,
 )
 
 
@@ -452,8 +535,8 @@ _CDEMOSYNCTICK = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=822,
-  serialized_end=837,
+  serialized_start=1071,
+  serialized_end=1086,
 )
 
 
@@ -480,8 +563,8 @@ _CDEMOCONSOLECMD = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=839,
-  serialized_end=875,
+  serialized_start=1088,
+  serialized_end=1124,
 )
 
 
@@ -508,8 +591,8 @@ _CDEMOSENDTABLES = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=877,
-  serialized_end=908,
+  serialized_start=1126,
+  serialized_end=1157,
 )
 
 
@@ -550,8 +633,8 @@ _CDEMOCLASSINFO_CLASS_T = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=971,
-  serialized_end=1040,
+  serialized_start=1220,
+  serialized_end=1289,
 )
 
 _CDEMOCLASSINFO = descriptor.Descriptor(
@@ -577,8 +660,8 @@ _CDEMOCLASSINFO = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=911,
-  serialized_end=1040,
+  serialized_start=1160,
+  serialized_end=1289,
 )
 
 
@@ -612,8 +695,8 @@ _CDEMOCUSTOMDATA = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1042,
-  serialized_end=1097,
+  serialized_start=1291,
+  serialized_end=1346,
 )
 
 
@@ -640,8 +723,8 @@ _CDEMOCUSTOMDATACALLBACKS = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1099,
-  serialized_end=1142,
+  serialized_start=1348,
+  serialized_end=1391,
 )
 
 
@@ -675,8 +758,8 @@ _CDEMOSTRINGTABLES_ITEMS_T = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1210,
-  serialized_end=1246,
+  serialized_start=1459,
+  serialized_end=1495,
 )
 
 _CDEMOSTRINGTABLES_TABLE_T = descriptor.Descriptor(
@@ -723,8 +806,8 @@ _CDEMOSTRINGTABLES_TABLE_T = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1249,
-  serialized_end=1396,
+  serialized_start=1498,
+  serialized_end=1645,
 )
 
 _CDEMOSTRINGTABLES = descriptor.Descriptor(
@@ -750,8 +833,8 @@ _CDEMOSTRINGTABLES = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1145,
-  serialized_end=1396,
+  serialized_start=1394,
+  serialized_end=1645,
 )
 
 
@@ -771,8 +854,8 @@ _CDEMOSTOP = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1398,
-  serialized_end=1409,
+  serialized_start=1647,
+  serialized_end=1658,
 )
 
 
@@ -806,12 +889,14 @@ _CDEMOUSERCMD = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=1411,
-  serialized_end=1459,
+  serialized_start=1660,
+  serialized_end=1708,
 )
 
 _CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO.containing_type = _CGAMEINFO_CDOTAGAMEINFO;
+_CGAMEINFO_CDOTAGAMEINFO_CHEROSELECTEVENT.containing_type = _CGAMEINFO_CDOTAGAMEINFO;
 _CGAMEINFO_CDOTAGAMEINFO.fields_by_name['player_info'].message_type = _CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO
+_CGAMEINFO_CDOTAGAMEINFO.fields_by_name['picks_bans'].message_type = _CGAMEINFO_CDOTAGAMEINFO_CHEROSELECTEVENT
 _CGAMEINFO_CDOTAGAMEINFO.containing_type = _CGAMEINFO;
 _CGAMEINFO.fields_by_name['dota'].message_type = _CGAMEINFO_CDOTAGAMEINFO
 _CDEMOFILEINFO.fields_by_name['game_info'].message_type = _CGAMEINFO
@@ -856,6 +941,12 @@ class CGameInfo(message.Message):
       DESCRIPTOR = _CGAMEINFO_CDOTAGAMEINFO_CPLAYERINFO
       
       # @@protoc_insertion_point(class_scope:CGameInfo.CDotaGameInfo.CPlayerInfo)
+    
+    class CHeroSelectEvent(message.Message):
+      __metaclass__ = reflection.GeneratedProtocolMessageType
+      DESCRIPTOR = _CGAMEINFO_CDOTAGAMEINFO_CHEROSELECTEVENT
+      
+      # @@protoc_insertion_point(class_scope:CGameInfo.CDotaGameInfo.CHeroSelectEvent)
     DESCRIPTOR = _CGAMEINFO_CDOTAGAMEINFO
     
     # @@protoc_insertion_point(class_scope:CGameInfo.CDotaGameInfo)
