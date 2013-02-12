@@ -28,6 +28,14 @@ GAME_MODES = {
     "dota_game_mode_13": "New Player Pool",
 }
 
+REPLAY_GAME_MODE = {
+    1: "All Pick",
+    2: "Captains Mode",
+    3: "Single Draft",
+    4: "Random Draft",
+    5: "All Random",
+}
+
 LEAVER_STATUS = {
     None: "Bot",
     "NULL": "Bot",
