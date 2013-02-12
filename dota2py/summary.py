@@ -91,6 +91,8 @@ class Player(object):
             "npc_dota_goodguys_range_rax": "goodguy_rax_kills",
             "npc_dota_badguys_fillers": "badguy_building_kills",
             "npc_dota_goodguys_fillers": "goodguy_building_kills",
+            "npc_dota_goodguys_fort": "goodguy_building_kills",
+            "npc_dota_badguys_fort": "badguy_building_kills",
         }
 
     creep_kills = property(partial(get_side_attr, "kills", False))
