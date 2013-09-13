@@ -99,7 +99,8 @@ def json_request_response(f):
 @json_request_response
 def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
                       skill=0, date_min=None, date_max=None, account_id=None,
-                      league_id=None, matches_requested=None,
+                      league_id=None, matches_requested=None, game_mode=None,
+                      min_players=None, tournament_games_only=None,
                       **kwargs):
     """
     List of most recent 25 matches before start_at_match_id
@@ -115,6 +116,9 @@ def get_match_history(start_at_match_id=None, player_name=None, hero_id=None,
         "account_id": account_id,
         "league_id": league_id,
         "matches_requested": matches_requested,
+        "game_mode": game_mode,
+        "min_players": min_players,
+        "tournament_games_only": tournament_games_only
     }
 
     return make_request("GetMatchHistory", params, **kwargs)
