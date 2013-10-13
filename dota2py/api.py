@@ -2,7 +2,11 @@
 Tools for accessing the Dota 2 match history web API
 """
 
-import urllib
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
+
 import logging
 import json
 from functools import wraps
@@ -35,23 +39,19 @@ def url_map(base, params):
 
     url = base
 
-    if '?' not in url and len(params):
+    if not params:
+        url.rstrip("?&")
+    elif '?' not in url:
         url += "?"
-    elif '?' in url:
-        if not url.endswith("&") and not url.endswith("?"):
-            url += "&"
 
-    for key, value in params.iteritems():
-        if value is not None:
-            if not isinstance(value, basestring):
-                value = str(value)
+    entries = []
+    for key, value in params.items():
+         if value is not None:
+            value = str(value)
+            entries.append("%s=%s" % (quote_plus(key.encode("utf-8")),
+                                      quote_plus(value.encode("utf-8"))))
 
-            url += "%s=%s&" % (urllib.quote_plus(key.encode("utf-8")),
-                               urllib.quote_plus(value.encode("utf-8")))
-
-    if url.endswith("&") or url.endswith("?"):
-        url = url[:-1]
-
+    url += "&".join(entries)
     return str(url)
 
 
@@ -75,7 +75,7 @@ def make_request(name, params=None, version="V001", key=None,
     params["language"] = language
 
     if not params["key"]:
-        raise ValueError("API key not set")
+        raise ValueError("API key not set, please set DOTA2_API_KEY")
 
     url = url_map("%s%s/%s/" % (base or BASE_URL, name, version), params)
     return fetcher(url)
@@ -90,7 +90,7 @@ def json_request_response(f):
     def wrapper(*args, **kwargs):
         response = f(*args, **kwargs)
         response.raise_for_status()
-        return json.loads(response.content)
+        return json.loads(response.content.decode('utf-8'))
 
     API_FUNCTIONS[f.__name__] = f
     return wrapper

@@ -125,7 +125,7 @@ class Player(object):
                 break
 
         if not matched:
-            print '> unhandled creep type', target
+            print('> unhandled creep type'.format(target))
 
     def __str__(self):
         return str(self.get_dict())
@@ -190,7 +190,7 @@ class DemoSummary(object):
         self.triggers[tick].append(fn)
 
     def parse(self):
-        print "Parsing demo '%s' for game information" % (self.filename, )
+        print("Parsing demo '{}' for game information".format(self.filename))
 
         self.dp = parser.DemoParser(self.filename, verbosity=1,
                                     frames=self.frames, hooks={
@@ -369,14 +369,14 @@ class DemoSummary(object):
     def print_info(self, d=None, indentation=0):
         for k, v in (d or self.info).items():
             if isinstance(v, dict):
-                print "%s%s:" % ('  ' * indentation,
-                    unicode(k).encode("ascii", errors="ignore"))
+                print("{}{}:".format('  ' * indentation,
+                    unicode(k).encode("ascii", errors="ignore")))
 
                 self.print_info(v, indentation + 1)
             else:
-                print "%s%s: %s" % ('  ' * indentation,
+                print("{}{}: {}".format('  ' * indentation,
                     unicode(k).encode("ascii", errors="ignore"),
-                    unicode(v).encode("ascii", errors="ignore"))
+                    unicode(v).encode("ascii", errors="ignore")))
 
 
 def main():

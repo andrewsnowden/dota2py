@@ -26,7 +26,7 @@ class ApiTest(unittest.TestCase):
         """
         j = api.get_steam_id("acidfoo")
         self.assertEquals(j["response"]["success"], 1)
-        self.assertEquals(j["response"]["steamid"], unicode(STEAM_ID))
+        self.assertEquals(j["response"]["steamid"], str(STEAM_ID))
 
     def test_match_history(self):
         """

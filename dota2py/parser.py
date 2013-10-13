@@ -174,7 +174,7 @@ class DemoParser(object):
         Log a message if our verbosity permits it
         """
         if level <= self.verbosity:
-            print message
+            print(message)
 
     def run_hooks(self, packet):
         """

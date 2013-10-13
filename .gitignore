@@ -30,3 +30,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+test.py
+venv
+venv3
