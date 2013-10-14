@@ -27,7 +27,7 @@ documentation
 from distutils.core import setup
 
 setup(name='dota2py',
-    version='0.1.2',
+    version='0.1.3',
     description='Python tools for Dota 2',
     long_description=__doc__,
     author='Andrew Snowden',
