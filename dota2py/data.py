@@ -12,13 +12,13 @@ HEROES_CACHE = {}
 ITEMS_CACHE = {}
 
 GAME_MODES = {
-    "dota_game_mode_0": "All Pick",
-    "dota_game_mode_1": "Single Draft",
-    "dota_game_mode_2": "All Random",
+    "dota_game_mode_0": "-",
+    "dota_game_mode_1": "All Pick",
+    "dota_game_mode_2": "Captains Mode",
     "dota_game_mode_3": "Random Draft",
-    "dota_game_mode_4": "Captains Draft",
-    "dota_game_mode_5": "Captains Mode",
-    "dota_game_mode_6": "Death Mode",
+    "dota_game_mode_4": "Single Draft",
+    "dota_game_mode_5": "All Random",
+    "dota_game_mode_6": "-",
     "dota_game_mode_7": "Diretide",
     "dota_game_mode_8": "Reverse Captains Mode",
     "dota_game_mode_9": "The Greeviling",
@@ -26,6 +26,10 @@ GAME_MODES = {
     "dota_game_mode_11": "Mid Only",
     "dota_game_mode_12": "Least Played",
     "dota_game_mode_13": "New Player Pool",
+    "dota_game_mode_14": "Compendium",
+    "dota_game_mode_15": "Wraith Night"
+    "dota_game_mode_16": "Captains Draft",
+    "dota_game_mode_17": "Auto Draft"
 }
 
 REPLAY_GAME_MODE = {
