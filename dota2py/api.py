@@ -74,8 +74,7 @@ def make_request(name, params=None, version="V001", key=None, api_type="web",
         url_suffix = ""
         url_suffix += "_".join(params)
         url = base + name + url_suffix
-        return fetcher(url)
-
+        return url
     params = params or {}
     params["key"] = key or API_KEY
     params["language"] = language
