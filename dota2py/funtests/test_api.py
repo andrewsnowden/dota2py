@@ -94,14 +94,14 @@ class ApiTest(unittest.TestCase):
         """
         Get a hero image
         """
-        image_url = api.get_hero_image('lion', 'full')
+        image_url = api.get_hero_image_url('lion', 'full')
         self.assertEquals(HERO_IMAGE, image_url)
 
     def test_get_item_image(self):
         """
         Get an item image
         """
-        image_url = api.get_item_image('dagon')
+        image_url = api.get_item_image_url('dagon')
         self.assertEquals(ITEM_IMAGE, image_url)
 
     def test_get_live_league_games(self):
