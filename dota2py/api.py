@@ -65,11 +65,17 @@ def get_page(url):
     return requests.get(url)
 
 
-def make_request(name, params=None, version="V001", key=None,
+def make_request(name, params=None, version="V001", key=None, api_type="web",
                  fetcher=get_page, base=None, language="en_us"):
     """
     Make an API request
     """
+    if api_type is 'media':
+        url_suffix = ""
+        url_suffix += "_".join(params)
+        url = base + name + url_suffix
+        return url
+
     params = params or {}
     params["key"] = key or API_KEY
     params["language"] = language
@@ -164,6 +170,30 @@ def get_heroes(**kwargs):
     """
     return make_request("GetHeroes",
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
+
+
+def get_hero_image(hero_name, image_size, **kwargs):
+    """
+    Get a hero image based on name and image size
+    """
+    valid_sizes = ['eg', 'sb', 'lg', 'full', 'vert']
+    if image_size not in valid_sizes:
+        raise ValueError("Not a valid hero image size")
+
+    params = [hero_name, image_size + '.png']
+
+    return make_request("images/heroes/", params, api_type="media",
+        base="http://media.steampowered.com/apps/dota2/", **kwargs)
+
+
+def get_item_image(item_name, **kwargs):
+    """
+    Get an item image based on name
+    """
+    params = [item_name + '_lg.png']
+
+    return make_request("images/items/", params, api_type="media",
+        base="http://media.steampowered.com/apps/dota2/", **kwargs)
 
 
 @json_request_response

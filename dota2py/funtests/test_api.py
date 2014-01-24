@@ -11,6 +11,8 @@ STEAM_NAME = "acidfoo"
 STEAM_ID = 76561198042433230
 MATCH_ID = 113514700
 MATCH_SEQ_NUM = 104373116
+HERO_IMAGE = "http://media.steampowered.com/apps/dota2/images/heroes/lion_full.png"
+ITEM_IMAGE = "http://media.steampowered.com/apps/dota2/images/items/dagon_lg.png"
 
 
 class ApiTest(unittest.TestCase):
@@ -87,6 +89,20 @@ class ApiTest(unittest.TestCase):
         self.assertIn("localized_name", hero)
         self.assertIn("name", hero)
         self.assertIn("id", hero)
+
+    def test_get_hero_image(self):
+        """
+        Get a hero image
+        """
+        image_url = api.get_hero_image('lion', 'full')
+        self.assertEquals(HERO_IMAGE, image_url)
+
+    def test_get_item_image(self):
+        """
+        Get an item image
+        """
+        image_url = api.get_item_image('dagon')
+        self.assertEquals(ITEM_IMAGE, image_url)
 
     def test_get_live_league_games(self):
         """
