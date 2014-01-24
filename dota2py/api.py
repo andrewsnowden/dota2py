@@ -70,11 +70,12 @@ def make_request(name, params=None, version="V001", key=None, api_type="web",
     """
     Make an API request
     """
-    if api_type == 'media':
+    if api_type is 'media':
         url_suffix = ""
         url_suffix += "_".join(params)
         url = base + name + url_suffix
         return url
+
     params = params or {}
     params["key"] = key or API_KEY
     params["language"] = language
@@ -170,6 +171,7 @@ def get_heroes(**kwargs):
     return make_request("GetHeroes",
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
 
+
 def get_hero_image(hero_name, image_size, **kwargs):
     """
     Get a hero image based on name and image size
@@ -182,6 +184,7 @@ def get_hero_image(hero_name, image_size, **kwargs):
 
     return make_request("images/heroes/", params, api_type="media",
         base="http://media.steampowered.com/apps/dota2/", **kwargs)
+
 
 def get_item_image(item_name, **kwargs):
     """
