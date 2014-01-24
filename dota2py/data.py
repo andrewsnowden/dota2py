@@ -27,7 +27,7 @@ GAME_MODES = {
     "dota_game_mode_12": "Least Played",
     "dota_game_mode_13": "New Player Pool",
     "dota_game_mode_14": "Compendium",
-    "dota_game_mode_15": "Wraith Night"
+    "dota_game_mode_15": "Wraith Night",
     "dota_game_mode_16": "Captains Draft",
     "dota_game_mode_17": "Auto Draft"
 }

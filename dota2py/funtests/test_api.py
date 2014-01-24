@@ -90,7 +90,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("name", hero)
         self.assertIn("id", hero)
 
-    def test_get_heroe_image(self):
+    def test_get_hero_image(self):
         """
         Get a hero image
         """
