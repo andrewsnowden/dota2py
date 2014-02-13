@@ -171,6 +171,10 @@ def get_hero_image_url(hero_name, image_size="lg"):
     """
     Get a hero image based on name and image size
     """
+
+    if hero_name.startswith("npc_dota_hero_"):
+        hero_name = hero_name[len("npc_dota_hero_"):]
+
     valid_sizes = ['eg', 'sb', 'lg', 'full', 'vert']
     if image_size not in valid_sizes:
         raise ValueError("Not a valid hero image size")
