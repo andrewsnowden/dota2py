@@ -211,3 +211,10 @@ def get_league_listing(**kwargs):
     """
     return make_request("GetLeaguelisting", **kwargs)
 
+
+@json_request_response
+def get_scheduled_league_games(**kwargs):
+    """
+    Get a list of scheduled league games
+    """
+    return make_request("GetScheduledLeagueGames", **kwargs)
