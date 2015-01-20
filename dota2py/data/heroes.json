@@ -534,10 +534,15 @@
             {
                 "name": "npc_dota_hero_terrorblade",
                 "id": 109,
-                "localized_name": "npc_dota_hero_terrorblade"
+                "localized_name": "Terrorblade"
+            },
+            {
+                "name": "npc_dota_hero_oracle",
+                "id": 110,
+                "localized_name": "Oracle"
             }
         ]
         ,
-        "count": 107
+        "count": 110
     }
 }
