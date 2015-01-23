@@ -534,10 +534,25 @@
             {
                 "name": "npc_dota_hero_terrorblade",
                 "id": 109,
-                "localized_name": "npc_dota_hero_terrorblade"
+                "localized_name": "Terrorblade"
+            },
+            {
+                "name": "npc_dota_hero_oracle",
+                "id": 110,
+                "localized_name": "Oracle"
+            },
+            {
+                "name": "npc_dota_hero_techies",
+                "id": 111,
+                "localized_name": "Techies"
+            },
+            {
+                "name": "npc_dota_hero_winter_wyvern",
+                "id": 112,
+                "localized_name": "Winter Wyvern"
             }
         ]
         ,
-        "count": 107
+        "count": 112
     }
 }
