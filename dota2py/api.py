@@ -159,6 +159,21 @@ def get_steam_id(vanityurl, **kwargs):
 
 
 @json_request_response
+def get_player_summaries(players, **kwargs):
+    """
+    Get players steam profile from their steam ids
+    """
+    if (isinstance(players, list)):
+        params = {'steamids': ','.join(str(p) for p in players)}
+    elif (isinstance(players, int)):
+        params = {'steamids': players}
+    else:
+        raise ValueError("The players input needs to be a list or int")
+    return make_request("GetPlayerSummaries", params, version="v0002",
+        base="http://api.steampowered.com/ISteamUser/", **kwargs)
+
+
+@json_request_response
 def get_heroes(**kwargs):
     """
     Get a list of hero identifiers
