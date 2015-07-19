@@ -28,6 +28,15 @@ def set_api_key(key):
     API_KEY = key
 
 
+def use_test_api():
+    """
+    Set the BASE_URL to refer to the test API instead of the live one
+    """
+
+    global BASE_URL
+    BASE_URL = "http://api.steampowered.com/IDOTA2Match_205790/"
+
+
 def url_map(base, params):
     """
     Return a URL with get parameters based on the params passed in
