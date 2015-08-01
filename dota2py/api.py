@@ -194,7 +194,7 @@ def get_heroes(**kwargs):
 @json_request_response
 def get_items(**kwargs):
     """
-    Get a list of hero identifiers
+    Get a list of item identifiers
     """
     return make_request("GetGameItems",
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
