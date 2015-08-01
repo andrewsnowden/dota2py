@@ -28,6 +28,15 @@ def set_api_key(key):
     API_KEY = key
 
 
+def use_test_api():
+    """
+    Set the BASE_URL to refer to the test API instead of the live one
+    """
+
+    global BASE_URL
+    BASE_URL = "http://api.steampowered.com/IDOTA2Match_205790/"
+
+
 def url_map(base, params):
     """
     Return a URL with get parameters based on the params passed in
@@ -182,6 +191,15 @@ def get_heroes(**kwargs):
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
 
 
+@json_request_response
+def get_items(**kwargs):
+    """
+    Get a list of item identifiers
+    """
+    return make_request("GetGameItems",
+        base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
+
+
 def get_hero_image_url(hero_name, image_size="lg"):
     """
     Get a hero image based on name and image size
@@ -221,6 +239,20 @@ def get_league_listing(**kwargs):
     Get a list of leagues
     """
     return make_request("GetLeaguelisting", **kwargs)
+
+
+@json_request_response
+def get_team_info_by_team_id(start_at_team_id=None, teams_requested=100,
+                             **kwargs):
+    """
+    Get data about teams that have been created in the client
+    """
+    params = {
+        "start_at_team_id": start_at_team_id,
+        "teams_requested": teams_requested
+    }
+
+    return make_request("GetTeamInfoByTeamID", params, **kwargs)
 
 
 @json_request_response

@@ -90,6 +90,18 @@ class ApiTest(unittest.TestCase):
         self.assertIn("name", hero)
         self.assertIn("id", hero)
 
+    def test_get_items(self):
+        """
+        Get list of item identifiers
+        """
+        j = api.get_items()
+        self.assertIn("result", j)
+        items = j["result"]["items"]
+        item = items[0]
+        self.assertIn("localized_name", item)
+        self.assertIn("name", item)
+        self.assertIn("id", item)
+
     def test_get_hero_image(self):
         """
         Get a hero image
@@ -119,3 +131,11 @@ class ApiTest(unittest.TestCase):
         j = api.get_league_listing()
         self.assertIn("result", j)
         self.assertIn("leagues", j["result"])
+
+    def test_get_team_info_by_team_id(self):
+        """
+        Get list of registered teams
+        """
+        j = api.get_team_info_by_team_id()
+        self.assertIn("result", j)
+        self.assertIn("teams", j["result"])
