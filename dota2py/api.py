@@ -242,6 +242,20 @@ def get_league_listing(**kwargs):
 
 
 @json_request_response
+def get_team_info_by_team_id(start_at_team_id=None, teams_requested=100,
+                             **kwargs):
+    """
+    Get data about teams that have been created in the client
+    """
+    params = {
+        "start_at_team_id": start_at_team_id,
+        "teams_requested": teams_requested
+    }
+
+    return make_request("GetTeamInfoByTeamID", params, **kwargs)
+
+
+@json_request_response
 def get_scheduled_league_games(**kwargs):
     """
     Get a list of scheduled league games
