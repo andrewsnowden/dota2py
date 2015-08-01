@@ -191,6 +191,15 @@ def get_heroes(**kwargs):
         base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
 
 
+@json_request_response
+def get_items(**kwargs):
+    """
+    Get a list of hero identifiers
+    """
+    return make_request("GetGameItems",
+        base="http://api.steampowered.com/IEconDOTA2_570/", **kwargs)
+
+
 def get_hero_image_url(hero_name, image_size="lg"):
     """
     Get a hero image based on name and image size
