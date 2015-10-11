@@ -848,9 +848,61 @@
 			{
 				"name": "tranquil_boots",
 				"id": 214
+			},
+			{
+				"name": "shadow_amulet",
+				"id": 215
+			},
+			{
+				"name": "enchanted_mango",
+				"id": 216
+			},
+			{
+				"name": "ward_dispenser",
+				"id": 218
+			},
+			{
+				"name": "travel_boots_2",
+				"id": 220
+			},
+			{
+				"name": "lotus_orb",
+				"id": 226
+			},
+			{
+				"name": "solar_crest",
+				"id": 229
+			},
+			{
+				"name": "guardian_greaves",
+				"id": 231
+			},
+			{
+				"name": "octarine_core",
+				"id": 235
+			},
+			{
+				"name": "tango_single",
+				"id": 241
+			},
+			{
+				"name": "crimson_guard",
+				"id": 242
+			},
+			{
+				"name": "moon_shard",
+				"id": 247
+			},
+			{
+				"name": "silver_edge",
+				"id": 249
+			},
+			{
+				"name": "glimmer_cape",
+				"id": 254
 			}
 		]
 		,
-		"count": 212
+		"count": 225
 	}
 }
